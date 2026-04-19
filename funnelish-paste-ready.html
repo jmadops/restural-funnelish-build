@@ -1,0 +1,2939 @@
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap');
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      /* Core brand — dialed for medical authority + warmth */
+      --rlp-navy: #0E1F5A;
+      --rlp-navy-deep: #081640;
+      --rlp-navy-mid: #1B3173;
+      --rlp-navy-light: #E8ECF7;
+      --rlp-green: #2E8B3E;
+      --rlp-green-dark: #226E30;
+      --rlp-green-light: #E8F5EA;
+      --rlp-cream: #FAF5EA;
+      --rlp-cream-deep: #F5EDD8;
+      --rlp-offwhite: #FBFAF5;
+      --rlp-white: #FFFFFF;
+      --rlp-gold: #E0A832;
+      --rlp-coral: #E8654F;
+      --rlp-coral-dark: #D04E3A;
+      --rlp-red: #C8202F;
+      --rlp-text: #14131A;
+      --rlp-text-mid: #4A4A50;
+      --rlp-text-light: #7A7A80;
+      --rlp-text-on-dark: #FFFFFF;
+      --rlp-border: #E4DFCF;
+      --rlp-border-light: #EDE7D5;
+
+      --rlp-font: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --rlp-max-width: 1140px;
+      --rlp-radius: 12px;
+      --rlp-radius-sm: 8px;
+      --rlp-radius-lg: 20px;
+
+      /* Dot pattern tiles */
+      --rlp-dots-dark: radial-gradient(circle, rgba(255,255,255,0.06) 1.2px, transparent 1.5px);
+      --rlp-dots-light: radial-gradient(circle, rgba(14,31,90,0.08) 1.1px, transparent 1.4px);
+      --rlp-dots-cream: radial-gradient(circle, rgba(224,168,50,0.18) 1.1px, transparent 1.4px);
+    }
+
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+    body {
+      font-family: var(--rlp-font);
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--rlp-text);
+      background: var(--rlp-white);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    img { max-width: 100%; height: auto; display: block; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ===== IMAGE PLACEHOLDERS ===== */
+    .restural-lp-img-ph {
+      background: linear-gradient(135deg, #E4EAE0, #F0E9D4);
+      border: 2px dashed #BFB896;
+      border-radius: var(--rlp-radius);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 20px 16px; gap: 6px;
+      color: #8B8564;
+      text-align: center; min-height: 180px; width: 100%;
+    }
+    .restural-lp-img-ph--arch { border-radius: 240px 240px 24px 24px; min-height: 480px; }
+    .restural-lp-img-ph--circle { border-radius: 50%; min-height: 0; width: 120px; height: 120px; padding: 12px; flex-shrink: 0; }
+    .restural-lp-img-ph--small { min-height: 56px; width: 56px; height: 56px; border-radius: 50%; padding: 6px; }
+    .restural-lp-img-ph--avatar { min-height: 34px; width: 34px; height: 34px; border-radius: 50%; padding: 0; font-size: 0.5rem; border-width: 1px; gap: 0; display: inline-flex; }
+    .restural-lp-img-ph--square { aspect-ratio: 4/3; min-height: 0; }
+    .restural-lp-img-ph--tall { aspect-ratio: 3/4; min-height: 0; }
+    .restural-lp-img-ph--wide { aspect-ratio: 16/7; min-height: 0; }
+    .restural-lp-img-ph-icon { font-size: 1.8rem; opacity: 0.45; }
+    .restural-lp-img-ph-label { font-size: 0.65rem; font-family: var(--rlp-font); opacity: 0.75; word-break: break-word; line-height: 1.3; }
+    .restural-lp-img-ph--circle .restural-lp-img-ph-icon { font-size: 1.2rem; }
+    .restural-lp-img-ph--circle .restural-lp-img-ph-label { font-size: 0.55rem; }
+    .restural-lp-img-ph--small .restural-lp-img-ph-icon { font-size: 0.9rem; }
+    .restural-lp-img-ph--small .restural-lp-img-ph-label { display: none; }
+    .restural-lp-img-ph--avatar .restural-lp-img-ph-icon { font-size: 0.6rem; }
+    .restural-lp-img-ph--avatar .restural-lp-img-ph-label { display: none; }
+    .restural-lp-img-ph--on-dark {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.18);
+      color: rgba(255,255,255,0.5);
+    }
+    /* When a real image is dropped in, kill the dashed placeholder look */
+    .restural-lp-img-ph--loaded {
+      background: #EFEBE0;
+      border: none;
+      padding: 0;
+      overflow: hidden;
+    }
+    .restural-lp-img-ph--loaded .restural-lp-img-ph-icon,
+    .restural-lp-img-ph--loaded .restural-lp-img-ph-label { display: none; }
+    .restural-lp-img-ph--loaded > img,
+    .restural-lp-img-ph--loaded > video {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      border-radius: inherit;
+    }
+    .restural-lp-img-ph--loaded.restural-lp-img-ph--on-dark { background: rgba(255,255,255,0.04); }
+
+    /* ===== TOPBAR ===== */
+    .restural-lp-topbar {
+      background: var(--rlp-navy-deep);
+      color: var(--rlp-text-on-dark);
+      padding: 10px 20px;
+      display: flex; align-items: center; justify-content: center;
+      gap: 14px; font-size: 0.88rem; font-weight: 600;
+      flex-wrap: wrap;
+    }
+    .restural-lp-topbar-offer {
+      color: var(--rlp-gold); font-weight: 800;
+      letter-spacing: 0.04em; text-transform: uppercase;
+      font-size: 0.78rem;
+    }
+    .restural-lp-topbar-divider {
+      width: 1px; height: 16px; background: rgba(255,255,255,0.22);
+      display: inline-block;
+    }
+    .restural-lp-topbar-label {
+      text-transform: uppercase; letter-spacing: 0.08em;
+      font-size: 0.72rem; opacity: 0.82;
+    }
+    .restural-lp-topbar-timer { display: inline-flex; gap: 6px; }
+    .restural-lp-topbar-timer-block {
+      background: rgba(255,255,255,0.1);
+      padding: 4px 10px; border-radius: 6px;
+      font-variant-numeric: tabular-nums; font-weight: 700;
+      font-size: 0.92rem; min-width: 48px; text-align: center;
+    }
+    .restural-lp-topbar-timer-label {
+      font-size: 0.56rem; text-transform: uppercase; letter-spacing: 0.08em;
+      opacity: 0.55; display: block;
+    }
+
+    /* ===== NAV ===== */
+    .restural-lp-nav {
+      background: var(--rlp-white);
+      padding: 14px 24px;
+      position: sticky; top: 0; z-index: 100;
+      border-bottom: 1px solid var(--rlp-border);
+    }
+    .restural-lp-nav-inner {
+      max-width: var(--rlp-max-width); margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .restural-lp-nav-logo {
+      font-size: 1.5rem; font-weight: 800;
+      color: var(--rlp-navy); letter-spacing: -0.02em;
+    }
+    .restural-lp-nav-sub {
+      display: block; font-size: 0.62rem; font-weight: 500;
+      color: var(--rlp-text-light); letter-spacing: 0.08em;
+      text-transform: uppercase; margin-top: -2px;
+    }
+    .restural-lp-nav-links { display: flex; gap: 26px; list-style: none; align-items: center; }
+    .restural-lp-nav-links a { font-size: 0.86rem; font-weight: 500; color: var(--rlp-text-mid); transition: color 0.2s; }
+    .restural-lp-nav-links a:hover { color: var(--rlp-navy); }
+    .restural-lp-nav-cart {
+      background: var(--rlp-cream); border: 1px solid var(--rlp-border);
+      padding: 6px 14px; border-radius: 20px; font-size: 0.8rem;
+      display: inline-flex; gap: 6px; align-items: center; font-weight: 600;
+    }
+
+    /* ===== FLASH STRIP ===== */
+    .restural-lp-flash-strip {
+      background: var(--rlp-green);
+      color: var(--rlp-white);
+      padding: 10px 20px; text-align: center;
+      font-weight: 700; font-size: 0.85rem;
+      text-transform: uppercase; letter-spacing: 0.08em;
+    }
+
+    /* ===== HERO ===== */
+    .restural-lp-hero {
+      background:
+        var(--rlp-dots-dark),
+        linear-gradient(140deg, var(--rlp-navy-deep) 0%, var(--rlp-navy) 45%, var(--rlp-navy-mid) 100%);
+      background-size: 22px 22px, 100% 100%;
+      color: var(--rlp-text-on-dark);
+      padding: 48px 24px 40px;
+      overflow: hidden; position: relative;
+    }
+    .restural-lp-hero::before {
+      content: '';
+      position: absolute;
+      top: -120px; right: -100px;
+      width: 480px; height: 480px;
+      background: radial-gradient(circle, rgba(224,168,50,0.12) 0%, transparent 65%);
+      pointer-events: none; z-index: 0;
+    }
+    .restural-lp-hero::after {
+      content: '';
+      position: absolute;
+      bottom: -160px; left: -120px;
+      width: 420px; height: 420px;
+      background: radial-gradient(circle, rgba(46,139,62,0.14) 0%, transparent 65%);
+      pointer-events: none; z-index: 0;
+    }
+    .restural-lp-hero-inner {
+      max-width: var(--rlp-max-width); margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr;
+      grid-template-areas:
+        "navbar navbar"
+        "menu menu"
+        "top image"
+        "bottom image";
+      column-gap: 48px; row-gap: 20px;
+      align-items: center; position: relative; z-index: 1;
+    }
+    .restural-lp-hero-eyebrow {
+      display: inline-block;
+      background: rgba(46,139,62,0.2); border: 1px solid rgba(46,139,62,0.35);
+      color: #8AD494; font-size: 0.72rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.14em;
+      padding: 6px 14px; border-radius: 20px; margin-bottom: 20px;
+    }
+    .restural-lp-hero h1 {
+      font-size: 2.8rem; font-weight: 800;
+      line-height: 1.08; margin-bottom: 18px;
+      letter-spacing: -0.02em;
+    }
+    .restural-lp-hero h1 em { font-style: normal; color: var(--rlp-coral); font-weight: 800; }
+    .restural-lp-hero-sub {
+      font-size: 1.05rem; line-height: 1.65;
+      opacity: 0.82; margin-bottom: 26px; max-width: 460px;
+      font-weight: 400;
+    }
+    .restural-lp-hero-proof {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 22px; flex-wrap: wrap;
+    }
+    .restural-lp-hero-avatars { display: flex; }
+    .restural-lp-hero-stars { color: var(--rlp-gold); font-size: 1rem; letter-spacing: 1px; margin-left: 6px; }
+    .restural-lp-hero-rating-text { font-size: 0.85rem; opacity: 0.78; font-weight: 500; }
+
+    .restural-lp-cta-primary {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      background: var(--rlp-green); color: var(--rlp-white);
+      font-family: var(--rlp-font); font-size: 0.98rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      padding: 16px 38px;
+      border-radius: var(--rlp-radius-sm); border: none; cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 4px 18px rgba(46,139,62,0.35), inset 0 1px 0 rgba(255,255,255,0.2);
+    }
+    .restural-lp-cta-primary:hover {
+      background: var(--rlp-green-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(46,139,62,0.45), inset 0 1px 0 rgba(255,255,255,0.2);
+    }
+
+    .restural-lp-hero-badges {
+      display: flex; gap: 20px; flex-wrap: wrap; margin-top: 22px;
+    }
+    .restural-lp-hero-badge {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 0.74rem; font-weight: 500; opacity: 0.72;
+      text-transform: uppercase; letter-spacing: 0.08em;
+    }
+    .restural-lp-hero-badge-icon { color: #8AD494; font-size: 0.88rem; }
+
+    .restural-lp-hero-image-col {
+      position: relative; display: flex; justify-content: center; align-items: center;
+      align-self: center; padding-top: 60px;
+    }
+    .restural-lp-hero-badge-float {
+      position: absolute; top: 24px; right: -14px;
+      background: var(--rlp-coral); color: var(--rlp-white);
+      width: 124px; height: 124px;
+      border-radius: 50%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center; line-height: 1;
+      box-shadow:
+        0 0 0 5px var(--rlp-gold),
+        0 0 0 8px var(--rlp-coral-dark),
+        0 12px 32px rgba(0,0,0,0.32),
+        inset 0 2px 0 rgba(255,255,255,0.2);
+      transform: rotate(10deg); z-index: 3;
+      font-family: var(--rlp-font);
+      animation: rlp-badge-glow 3.2s ease-in-out infinite;
+    }
+    .restural-lp-hero-badge-float::before {
+      content: ''; position: absolute;
+      top: -5px; left: 50%; transform: translateX(-50%);
+      width: 0; height: 0;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-bottom: 10px solid var(--rlp-gold);
+    }
+    .restural-lp-hero-badge-float-num {
+      font-size: 1.9rem; font-weight: 900;
+      color: var(--rlp-gold);
+      letter-spacing: -0.04em;
+      text-shadow: 0 1px 0 rgba(0,0,0,0.18);
+    }
+    .restural-lp-hero-badge-float-day {
+      font-size: 0.66rem; font-weight: 800;
+      text-transform: uppercase; letter-spacing: 0.22em;
+      margin-top: 2px; color: rgba(255,255,255,0.95);
+    }
+    .restural-lp-hero-badge-float-txt {
+      font-size: 0.55rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em;
+      margin-top: 6px; padding-top: 5px;
+      line-height: 1.25;
+      border-top: 1px solid rgba(255,255,255,0.4);
+      width: 78%; color: rgba(255,255,255,0.92);
+    }
+    @keyframes rlp-badge-glow {
+      0%, 100% {
+        box-shadow:
+          0 0 0 5px var(--rlp-gold),
+          0 0 0 8px var(--rlp-coral-dark),
+          0 12px 32px rgba(0,0,0,0.32),
+          inset 0 2px 0 rgba(255,255,255,0.2);
+      }
+      50% {
+        box-shadow:
+          0 0 0 5px var(--rlp-gold),
+          0 0 0 8px var(--rlp-coral-dark),
+          0 12px 32px rgba(0,0,0,0.32),
+          0 0 38px rgba(224,168,50,0.45),
+          inset 0 2px 0 rgba(255,255,255,0.2);
+      }
+    }
+
+    /* Hero testimonial carousel */
+    .restural-lp-hero-carousel {
+      margin-top: 24px; max-width: 480px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--rlp-radius);
+      padding: 16px 18px; backdrop-filter: blur(4px);
+      position: relative; overflow: hidden;
+      min-height: 108px;
+    }
+    .restural-lp-hero-carousel-track {
+      display: flex; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .restural-lp-hero-carousel-item {
+      flex: 0 0 100%;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .restural-lp-hero-carousel-item .restural-lp-img-ph--small { flex-shrink: 0; border-color: rgba(255,255,255,0.25); background: rgba(255,255,255,0.1); }
+    .restural-lp-hero-carousel-quote {
+      font-size: 0.86rem; line-height: 1.5; color: rgba(255,255,255,0.92);
+      font-style: italic; margin-bottom: 6px;
+    }
+    .restural-lp-hero-carousel-name {
+      font-size: 0.78rem; font-weight: 600;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .restural-lp-hero-carousel-stars { color: var(--rlp-gold); font-size: 0.76rem; letter-spacing: 1px; }
+    .restural-lp-hero-carousel-dots {
+      display: flex; justify-content: center; gap: 6px;
+      margin-top: 10px;
+    }
+    .restural-lp-hero-carousel-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: rgba(255,255,255,0.3); transition: background 0.2s;
+      border: none; cursor: pointer; padding: 0;
+    }
+    .restural-lp-hero-carousel-dot--active { background: var(--rlp-gold); width: 18px; border-radius: 3px; }
+
+    /* ===== MARQUEE ===== */
+    .restural-lp-marquee {
+      background: var(--rlp-gold);
+      color: var(--rlp-navy-deep);
+      padding: 11px 0; overflow: hidden; white-space: nowrap;
+      border-top: 2px solid var(--rlp-navy-deep);
+      border-bottom: 2px solid var(--rlp-navy-deep);
+    }
+    .restural-lp-marquee-track { display: inline-flex; animation: rlp-scroll 22s linear infinite; }
+    .restural-lp-marquee-item {
+      display: inline-flex; align-items: center; gap: 16px; padding: 0 32px;
+      font-weight: 800; font-size: 0.88rem;
+      text-transform: uppercase; letter-spacing: 0.08em;
+    }
+    .restural-lp-marquee-dot {
+      width: 6px; height: 6px; background: var(--rlp-navy-deep);
+      border-radius: 50%;
+    }
+    @keyframes rlp-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+    /* ===== FULL-BLEED (breaks out of Funnelish container) ===== */
+    .restural-lp-topbar,
+    .restural-lp-flash-strip,
+    .restural-lp-marquee,
+    section[class*="restural-lp-"] {
+      position: relative;
+      left: 50%;
+      right: 50%;
+      margin-left: -50vw;
+      margin-right: -50vw;
+      width: 100vw;
+      max-width: 100vw;
+    }
+
+
+    /* ===== UTILITIES ===== */
+    .restural-lp-container { max-width: var(--rlp-max-width); margin: 0 auto; padding: 0 24px; }
+    .restural-lp-eyebrow-label {
+      display: inline-block;
+      background: var(--rlp-green-light); color: var(--rlp-green-dark);
+      font-size: 0.72rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.14em;
+      padding: 6px 14px; border-radius: 20px;
+      margin-bottom: 16px;
+    }
+    .restural-lp-eyebrow-label--on-dark {
+      background: rgba(224,168,50,0.18);
+      color: var(--rlp-gold);
+      border: 1px solid rgba(224,168,50,0.3);
+    }
+    .restural-lp-section-heading {
+      font-size: 2.1rem; font-weight: 700; line-height: 1.18;
+      color: var(--rlp-navy); text-align: center;
+      margin-bottom: 14px; letter-spacing: -0.02em;
+    }
+    .restural-lp-section-heading--light { color: var(--rlp-text-on-dark); }
+    .restural-lp-section-heading em { font-style: normal; color: var(--rlp-coral); font-weight: 700; }
+    .restural-lp-section-heading-sub {
+      text-align: center; color: var(--rlp-text-mid);
+      max-width: 640px; margin: 0 auto 36px; font-size: 1rem; line-height: 1.65;
+    }
+    .restural-lp-section-heading-sub--light { color: rgba(255,255,255,0.72); }
+    .restural-lp-divider {
+      width: 56px; height: 3px; background: var(--rlp-gold);
+      margin: 0 auto 26px; border-radius: 2px;
+    }
+    .restural-lp-divider--left { margin: 0 0 26px 0; }
+
+    /* ===== TESTIMONIALS STRIP ===== */
+    .restural-lp-testimonials { padding: 56px 24px; background: var(--rlp-offwhite); }
+    .restural-lp-testimonials-grid {
+      max-width: var(--rlp-max-width); margin: 0 auto;
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px;
+    }
+    .restural-lp-testimonial-card {
+      background: var(--rlp-white);
+      border: 1px solid var(--rlp-border-light);
+      border-radius: var(--rlp-radius);
+      padding: 22px 16px; text-align: center;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .restural-lp-testimonial-card:hover {
+      border-color: var(--rlp-green);
+      transform: translateY(-2px);
+    }
+    .restural-lp-testimonial-stars { color: var(--rlp-gold); font-size: 0.84rem; letter-spacing: 1px; margin-bottom: 8px; }
+    .restural-lp-testimonial-quote { font-size: 0.84rem; color: var(--rlp-text-mid); line-height: 1.55; margin-bottom: 10px; font-style: italic; }
+    .restural-lp-testimonial-name { font-size: 0.76rem; font-weight: 700; color: var(--rlp-navy); }
+
+    /* ===== PROBLEM (dark w/ dot pattern) ===== */
+    .restural-lp-problem {
+      background:
+        var(--rlp-dots-dark),
+        linear-gradient(160deg, var(--rlp-navy-deep) 0%, var(--rlp-navy) 60%, var(--rlp-navy-mid) 100%);
+      background-size: 26px 26px, 100% 100%;
+      color: var(--rlp-text-on-dark);
+      padding: 76px 24px; position: relative; overflow: hidden;
+    }
+    .restural-lp-problem::before {
+      content: '';
+      position: absolute;
+      top: 10%; right: -100px;
+      width: 320px; height: 320px;
+      background: radial-gradient(circle, rgba(232,101,79,0.12) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .restural-lp-problem-inner { max-width: var(--rlp-max-width); margin: 0 auto; position: relative; z-index: 1; }
+    .restural-lp-problem-row {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 44px;
+      align-items: center; margin-bottom: 44px;
+    }
+    .restural-lp-problem-row--reverse { direction: rtl; }
+    .restural-lp-problem-row--reverse > * { direction: ltr; }
+    .restural-lp-problem p { font-size: 1.02rem; line-height: 1.75; margin-bottom: 16px; opacity: 0.88; }
+    .restural-lp-problem strong { color: var(--rlp-gold); font-weight: 600; }
+    .restural-lp-problem em { color: var(--rlp-coral); font-style: italic; }
+    .restural-lp-problem-callout {
+      background: rgba(46,139,62,0.12);
+      border-left: 3px solid var(--rlp-green);
+      padding: 22px 26px; margin: 24px 0;
+      border-radius: 0 var(--rlp-radius-sm) var(--rlp-radius-sm) 0;
+      font-size: 1.02rem; font-weight: 500; opacity: 1; line-height: 1.65;
+    }
+
+    /* ===== CTA BLOCK ===== */
+    .restural-lp-cta-block {
+      padding: 48px 24px; text-align: center;
+      background:
+        var(--rlp-dots-dark),
+        var(--rlp-navy-deep);
+      background-size: 22px 22px, 100% 100%;
+      color: var(--rlp-text-on-dark);
+    }
+    .restural-lp-cta-block p {
+      font-size: 1.3rem; font-weight: 600; margin-bottom: 20px;
+      max-width: 640px; margin-left: auto; margin-right: auto;
+    }
+    .restural-lp-cta-block-mini {
+      font-size: 0.82rem; font-weight: 500;
+      opacity: 0.65; margin-top: 14px !important; letter-spacing: 0.04em;
+    }
+
+    /* ===== BELIEF ===== */
+    .restural-lp-belief {
+      padding: 76px 24px; background: var(--rlp-cream);
+      background-image: var(--rlp-dots-cream);
+      background-size: 28px 28px;
+      border-top: 1px solid var(--rlp-border);
+      border-bottom: 1px solid var(--rlp-border);
+      position: relative;
+    }
+    .restural-lp-belief-inner {
+      max-width: 1040px; margin: 0 auto;
+      display: grid; grid-template-columns: 1.15fr 1fr;
+      gap: 56px; align-items: center;
+    }
+    .restural-lp-belief-quote {
+      font-size: 1.5rem; font-weight: 600; line-height: 1.45;
+      color: var(--rlp-navy); margin-bottom: 22px;
+      letter-spacing: -0.01em;
+    }
+    .restural-lp-belief-quote em { font-style: normal; color: var(--rlp-coral); }
+    .restural-lp-belief p {
+      font-size: 1rem; line-height: 1.75; color: var(--rlp-text-mid);
+      margin-bottom: 16px;
+    }
+    .restural-lp-belief-image-stack {
+      position: relative; padding: 20px;
+    }
+    .restural-lp-belief-image-stack .restural-lp-img-ph--main {
+      border-radius: var(--rlp-radius-lg);
+      aspect-ratio: 4/5; min-height: 0; max-width: 340px;
+      margin-left: auto; border-width: 2px;
+      box-shadow: 0 14px 40px rgba(14,31,90,0.15);
+    }
+    .restural-lp-belief-image-accent {
+      position: absolute; bottom: 10px; left: 0;
+      width: 160px; aspect-ratio: 1;
+      border-radius: var(--rlp-radius);
+      overflow: hidden;
+      border: 5px solid var(--rlp-cream);
+      box-shadow: 0 10px 28px rgba(14,31,90,0.2);
+    }
+    .restural-lp-belief-image-accent .restural-lp-img-ph {
+      border-radius: var(--rlp-radius-sm); min-height: 0;
+      width: 100%; height: 100%; aspect-ratio: unset;
+    }
+    .restural-lp-belief-sticker {
+      position: absolute; top: -4px; right: 8px;
+      background: var(--rlp-gold); color: var(--rlp-navy-deep);
+      font-size: 0.72rem; font-weight: 800;
+      padding: 10px 14px; border-radius: 50%;
+      width: 82px; height: 82px;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center; line-height: 1.15;
+      transform: rotate(10deg); z-index: 2;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      box-shadow: 0 6px 18px rgba(224,168,50,0.35);
+    }
+    .restural-lp-belief-scribble {
+      display: inline-block; padding: 0 4px;
+      background: linear-gradient(180deg, transparent 60%, rgba(224,168,50,0.4) 60%);
+    }
+
+    /* ===== ARTICLE INLINE IMAGES + PULL-QUOTE ===== */
+    .restural-lp-article-inline-img {
+      margin: 36px -20px;
+      border-radius: var(--rlp-radius-lg);
+      overflow: hidden;
+      position: relative;
+    }
+    .restural-lp-article-inline-img .restural-lp-img-ph {
+      aspect-ratio: 16/8; min-height: 0;
+      border-radius: var(--rlp-radius-lg);
+    }
+    .restural-lp-article-inline-img-caption {
+      font-size: 0.82rem; color: var(--rlp-text-light);
+      font-style: italic; margin-top: 12px; text-align: center;
+      padding: 0 16px;
+    }
+    .restural-lp-article-inline-img-sticker {
+      position: absolute; top: 16px; right: 16px;
+      background: var(--rlp-gold); color: var(--rlp-navy-deep);
+      font-size: 0.68rem; font-weight: 800;
+      padding: 8px 14px; border-radius: 20px;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      transform: rotate(4deg);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+    }
+    .restural-lp-article-pullquote {
+      font-size: 1.35rem; font-weight: 600; line-height: 1.4;
+      color: var(--rlp-navy); margin: 40px 0;
+      padding: 28px 30px 28px 36px;
+      border-left: 4px solid var(--rlp-gold);
+      background: var(--rlp-cream);
+      border-radius: 0 var(--rlp-radius) var(--rlp-radius) 0;
+      font-style: italic;
+      position: relative;
+    }
+    .restural-lp-article-pullquote::before {
+      content: '\201C';
+      position: absolute; top: 0; left: 18px;
+      font-size: 3rem; color: rgba(224,168,50,0.35);
+      font-family: Georgia, serif; font-style: normal; line-height: 1;
+    }
+    .restural-lp-article-pullquote em { color: var(--rlp-coral); font-style: italic; }
+    .restural-lp-article-pullquote-cite {
+      display: block; font-size: 0.82rem; font-weight: 500;
+      color: var(--rlp-text-light); font-style: normal; margin-top: 10px;
+      letter-spacing: 0.04em;
+    }
+
+    /* ===== PRICING CARD IMAGE ===== */
+    .restural-lp-pricing-card-image {
+      width: 200px; height: 200px; margin: 0 auto 10px;
+    }
+    .restural-lp-pricing-card-thumbs {
+      display: flex; justify-content: center; gap: 8px;
+      margin: 0 auto 18px; flex-wrap: wrap; max-width: 100%;
+    }
+    .restural-lp-pricing-card-thumb {
+      width: 46px; height: 46px; padding: 0;
+      border: 2px solid var(--rlp-border); border-radius: 8px;
+      background: var(--rlp-white); cursor: pointer; overflow: hidden;
+      transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s;
+    }
+    .restural-lp-pricing-card-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .restural-lp-pricing-card-thumb:hover { transform: translateY(-2px); border-color: var(--rlp-gold); }
+    .restural-lp-pricing-card-thumb--active {
+      border-color: var(--rlp-green);
+      box-shadow: 0 0 0 2px rgba(46,139,62,0.2);
+    }
+    .restural-lp-pricing-card-image .restural-lp-img-ph {
+      border-radius: var(--rlp-radius-sm);
+      width: 100%; height: 100%; min-height: 0;
+      aspect-ratio: 1;
+      background: linear-gradient(135deg, var(--rlp-cream), var(--rlp-cream-deep));
+      border-color: var(--rlp-border);
+    }
+
+    /* ===== WHO FOR HERO IMAGE ===== */
+    .restural-lp-whofor-hero-image {
+      max-width: 780px; margin: 0 auto 38px;
+      border-radius: var(--rlp-radius-lg);
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 10px 32px rgba(14,31,90,0.1);
+    }
+    .restural-lp-whofor-hero-image .restural-lp-img-ph {
+      aspect-ratio: 16/6; min-height: 0;
+      border-radius: var(--rlp-radius-lg);
+    }
+
+    /* ===== FINAL CTA IMAGE ===== */
+    .restural-lp-final-cta-image {
+      width: 180px; height: 180px; margin: 0 auto 24px;
+      position: relative;
+    }
+    .restural-lp-final-cta-image .restural-lp-img-ph {
+      border-radius: 50%; min-height: 0;
+      width: 100%; height: 100%; aspect-ratio: 1;
+      border-color: rgba(255,255,255,0.25);
+      background: rgba(255,255,255,0.06);
+      color: rgba(255,255,255,0.5);
+    }
+    .restural-lp-final-cta-image-badge {
+      position: absolute; top: -6px; right: -10px;
+      background: var(--rlp-gold); color: var(--rlp-navy-deep);
+      font-size: 0.64rem; font-weight: 800;
+      width: 64px; height: 64px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center; line-height: 1.15;
+      transform: rotate(10deg);
+      text-transform: uppercase; letter-spacing: 0.04em;
+      box-shadow: 0 6px 18px rgba(224,168,50,0.4);
+    }
+
+    /* ===== ARTICLE ===== */
+    .restural-lp-article {
+      padding: 76px 24px;
+      background: var(--rlp-white);
+    }
+    .restural-lp-article-inner { max-width: 780px; margin: 0 auto; }
+    .restural-lp-article-byline {
+      text-align: center; font-size: 0.88rem;
+      color: var(--rlp-text-light); margin-bottom: 44px;
+      padding-bottom: 24px; border-bottom: 1px solid var(--rlp-border-light);
+    }
+    .restural-lp-article-byline strong { color: var(--rlp-navy); font-weight: 600; }
+    .restural-lp-article h3 {
+      font-size: 1.45rem; font-weight: 700;
+      color: var(--rlp-navy); margin: 44px 0 14px;
+      letter-spacing: -0.01em;
+    }
+    .restural-lp-article p { margin-bottom: 16px; font-size: 1rem; line-height: 1.8; color: var(--rlp-text-mid); }
+    .restural-lp-article strong { color: var(--rlp-text); }
+    .restural-lp-article-stat {
+      background:
+        var(--rlp-dots-dark),
+        linear-gradient(135deg, var(--rlp-navy) 0%, var(--rlp-navy-mid) 100%);
+      background-size: 20px 20px, 100% 100%;
+      border-radius: var(--rlp-radius);
+      padding: 30px; margin: 32px 0; text-align: center;
+      color: var(--rlp-text-on-dark); position: relative; overflow: hidden;
+    }
+    .restural-lp-article-stat-number {
+      font-size: 3rem; font-weight: 900;
+      color: var(--rlp-gold); line-height: 1; margin-bottom: 6px;
+      letter-spacing: -0.03em;
+    }
+    .restural-lp-article-stat-label { font-size: 0.94rem; font-weight: 500; opacity: 0.88; }
+
+    /* Compact inline variant — sits with body copy, not a shout */
+    .restural-lp-article-stat--inline {
+      display: flex; align-items: center; gap: 22px;
+      text-align: left; padding: 20px 26px; margin: 24px 0;
+      border-left: 4px solid var(--rlp-gold);
+      border-radius: 6px;
+    }
+    .restural-lp-article-stat--inline .restural-lp-article-stat-number {
+      font-size: 2.6rem; margin: 0; flex-shrink: 0;
+    }
+    .restural-lp-article-stat--inline .restural-lp-article-stat-label {
+      font-size: 0.92rem; line-height: 1.5;
+    }
+
+    /* Unified trial-results panel (replaces stack of blue banners) */
+    .restural-lp-article-stats-panel {
+      background:
+        var(--rlp-dots-dark),
+        linear-gradient(135deg, var(--rlp-navy) 0%, var(--rlp-navy-mid) 100%);
+      background-size: 20px 20px, 100% 100%;
+      border-radius: var(--rlp-radius);
+      padding: 34px 32px; margin: 32px 0;
+      color: var(--rlp-text-on-dark); position: relative; overflow: hidden;
+    }
+    .restural-lp-article-stats-panel-head {
+      text-align: center; margin-bottom: 24px;
+      padding-bottom: 18px; border-bottom: 1px solid rgba(255,255,255,0.12);
+    }
+    .restural-lp-article-stats-panel-head .restural-lp-eyebrow-label {
+      margin-bottom: 8px;
+    }
+    .restural-lp-article-stats-panel-head p {
+      font-size: 0.95rem; opacity: 0.84; margin: 0; color: var(--rlp-text-on-dark);
+    }
+    .restural-lp-article-stats-panel-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 22px 30px;
+    }
+    .restural-lp-article-stats-panel-item {
+      display: flex; align-items: baseline; gap: 14px;
+    }
+    .restural-lp-article-stats-panel-num {
+      font-size: 2.2rem; font-weight: 900;
+      color: var(--rlp-gold); line-height: 1;
+      letter-spacing: -0.03em; flex-shrink: 0;
+      min-width: 66px;
+    }
+    .restural-lp-article-stats-panel-lbl {
+      font-size: 0.88rem; line-height: 1.45;
+      font-weight: 500; opacity: 0.9;
+    }
+
+    /* ===== TIMELINE ===== */
+    .restural-lp-timeline {
+      padding: 76px 24px;
+      background: var(--rlp-cream);
+      background-image: var(--rlp-dots-cream);
+      background-size: 28px 28px;
+    }
+    .restural-lp-timeline-list {
+      max-width: 900px; margin: 44px auto 0;
+      position: relative;
+    }
+    .restural-lp-timeline-list::before {
+      content: '';
+      position: absolute; left: 50%; top: 8px; bottom: 8px;
+      width: 2px; transform: translateX(-50%);
+      background: linear-gradient(to bottom,
+        rgba(224,168,50,0.15) 0%,
+        var(--rlp-gold) 8%,
+        var(--rlp-gold) 92%,
+        rgba(224,168,50,0.15) 100%);
+    }
+    .restural-lp-timeline-item {
+      position: relative;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 64px;
+      margin-bottom: 32px;
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 560ms ease, transform 560ms ease;
+    }
+    .restural-lp-timeline-item.is-visible { opacity: 1; transform: translateY(0); }
+    .restural-lp-timeline-item:nth-child(1) { transition-delay: 0ms; }
+    .restural-lp-timeline-item:nth-child(2) { transition-delay: 80ms; }
+    .restural-lp-timeline-item:nth-child(3) { transition-delay: 160ms; }
+    .restural-lp-timeline-item:nth-child(4) { transition-delay: 240ms; }
+    .restural-lp-timeline-item:nth-child(5) { transition-delay: 320ms; }
+    .restural-lp-timeline-item:nth-child(6) { transition-delay: 400ms; }
+    .restural-lp-timeline-item--right { grid-template-areas: ". card"; }
+    .restural-lp-timeline-item--left  { grid-template-areas: "card ."; }
+    .restural-lp-timeline-card { grid-area: card; }
+    .restural-lp-timeline-item::after {
+      content: '';
+      position: absolute; top: 30px; left: 50%;
+      width: 14px; height: 14px; transform: translateX(-50%);
+      background: var(--rlp-gold);
+      border: 3px solid var(--rlp-cream);
+      border-radius: 50%;
+      box-shadow: 0 0 0 2px var(--rlp-navy);
+      z-index: 1;
+    }
+    .restural-lp-timeline-card {
+      position: relative;
+      background: var(--rlp-white);
+      border: 2px solid var(--rlp-navy);
+      border-radius: 16px;
+      padding: 24px 26px;
+      box-shadow: 0 6px 20px rgba(14,31,90,0.08);
+      transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+    }
+    .restural-lp-timeline-card:hover {
+      transform: translateY(-4px) scale(1.015);
+      box-shadow: 0 16px 36px rgba(14,31,90,0.16);
+      border-color: var(--rlp-gold);
+    }
+    .restural-lp-timeline-item--left .restural-lp-timeline-card::after,
+    .restural-lp-timeline-item--right .restural-lp-timeline-card::before {
+      content: '';
+      position: absolute; top: 34px;
+      width: 32px; height: 2px;
+      background: var(--rlp-gold);
+    }
+    .restural-lp-timeline-item--left .restural-lp-timeline-card::after { right: -32px; }
+    .restural-lp-timeline-item--right .restural-lp-timeline-card::before { left: -32px; }
+    .restural-lp-timeline-badge {
+      display: inline-block;
+      background: var(--rlp-gold); color: var(--rlp-navy);
+      font-size: 0.7rem; font-weight: 800;
+      text-transform: uppercase; letter-spacing: 0.12em;
+      padding: 5px 12px; border-radius: 20px;
+      margin-bottom: 12px;
+    }
+    .restural-lp-timeline-card h3 {
+      font-size: 1.15rem; font-weight: 700;
+      color: var(--rlp-navy); margin-bottom: 6px;
+    }
+    .restural-lp-timeline-card p {
+      font-size: 0.95rem; color: var(--rlp-text-mid); line-height: 1.6;
+    }
+
+    /* ===== HOW TO USE ===== */
+    .restural-lp-howto { padding: 76px 24px; background: var(--rlp-white); }
+    .restural-lp-howto-steps {
+      max-width: 980px; margin: 36px auto 0;
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;
+    }
+    .restural-lp-howto-step {
+      text-align: center; background: var(--rlp-offwhite);
+      border: 1px solid var(--rlp-border-light);
+      border-radius: var(--rlp-radius);
+      padding: 28px 20px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .restural-lp-howto-step:hover { border-color: var(--rlp-green); transform: translateY(-3px); }
+    .restural-lp-howto-step .restural-lp-img-ph { border-radius: var(--rlp-radius-sm); margin-bottom: 18px; }
+    .restural-lp-howto-step-number {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 40px; height: 40px; background: var(--rlp-green);
+      color: var(--rlp-white); border-radius: 50%;
+      font-weight: 800; font-size: 1.05rem;
+      margin-bottom: 14px;
+      box-shadow: 0 3px 10px rgba(46,139,62,0.3);
+    }
+    .restural-lp-howto-step h3 {
+      font-size: 1.08rem; font-weight: 700;
+      color: var(--rlp-navy); margin-bottom: 6px;
+    }
+    .restural-lp-howto-step p { font-size: 0.9rem; color: var(--rlp-text-mid); line-height: 1.6; }
+
+    /* ===== MECHANISM COMPARISON (PQ-style X MORE grid) ===== */
+    .restural-lp-comparison {
+      padding: 76px 24px;
+      background: var(--rlp-navy-deep);
+      background-image: var(--rlp-dots-dark);
+      background-size: 26px 26px;
+      color: var(--rlp-text-on-dark);
+      position: relative; overflow: hidden;
+    }
+    .restural-lp-comparison::before {
+      content: '';
+      position: absolute;
+      top: -100px; left: -100px; width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(224,168,50,0.1) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .restural-lp-comparison-inner { max-width: var(--rlp-max-width); margin: 0 auto; position: relative; z-index: 1; }
+    .restural-lp-comparison-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;
+      margin-top: 8px;
+    }
+    @media (max-width: 1040px) {
+      .restural-lp-comparison-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    .restural-lp-comparison-card {
+      background: var(--rlp-white);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex; flex-direction: column;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+      transition: transform 220ms ease, box-shadow 220ms ease;
+    }
+    .restural-lp-comparison-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 36px rgba(0,0,0,0.28);
+    }
+    .restural-lp-comparison-card-top {
+      background: var(--rlp-navy-deep);
+      color: var(--rlp-white);
+      padding: 12px 16px;
+      display: flex; align-items: center; gap: 10px;
+      border-bottom: 1px solid rgba(224,168,50,0.25);
+    }
+    .restural-lp-comparison-card-abbr {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-width: 36px; height: 28px; padding: 0 8px;
+      background: var(--rlp-gold); color: var(--rlp-navy);
+      font-size: 0.72rem; font-weight: 800;
+      letter-spacing: 0.06em; border-radius: 6px;
+    }
+    .restural-lp-comparison-card-title {
+      font-size: 0.82rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--rlp-white);
+    }
+    .restural-lp-comparison-card-mid {
+      background: var(--rlp-cream);
+      background-image: var(--rlp-dots-cream);
+      background-size: 20px 20px;
+      padding: 20px;
+      display: flex; align-items: center; justify-content: center;
+      aspect-ratio: 4 / 3;
+    }
+    .restural-lp-comparison-card-mid img {
+      display: block; width: 100%; height: 100%;
+      object-fit: contain; max-height: 220px;
+    }
+    .restural-lp-comparison-card-bot {
+      background: var(--rlp-gold);
+      color: var(--rlp-navy);
+      padding: 14px 18px;
+      display: flex; flex-direction: column; align-items: flex-start; gap: 2px;
+    }
+    .restural-lp-comparison-card-stat {
+      font-size: 1.9rem; font-weight: 900; line-height: 1;
+      letter-spacing: -0.02em;
+    }
+    .restural-lp-comparison-card-stat-unit {
+      font-size: 1.15rem; font-weight: 800;
+    }
+    .restural-lp-comparison-card-claim {
+      font-size: 0.82rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--rlp-navy);
+    }
+
+    /* ===== MANUFACTURING ===== */
+    .restural-lp-manufacturing {
+      padding: 76px 24px; background: var(--rlp-offwhite); text-align: center;
+    }
+    .restural-lp-manufacturing-inner { max-width: 880px; margin: 0 auto; }
+    .restural-lp-manufacturing-image-wrap {
+      position: relative; margin: 0 auto 28px; max-width: 720px;
+    }
+    .restural-lp-manufacturing-image-wrap .restural-lp-img-ph {
+      border-radius: var(--rlp-radius); aspect-ratio: 16/8; min-height: 0;
+    }
+    .restural-lp-manufacturing-play {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 72px; height: 72px; border-radius: 50%;
+      background: rgba(14,31,90,0.92);
+      color: var(--rlp-white);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem; box-shadow: 0 6px 22px rgba(0,0,0,0.3);
+      pointer-events: none;
+    }
+    .restural-lp-manufacturing p {
+      font-size: 1rem; line-height: 1.75;
+      margin-bottom: 14px; color: var(--rlp-text-mid);
+    }
+    .restural-lp-manufacturing-badges {
+      display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; margin-top: 24px;
+    }
+    .restural-lp-manufacturing-badge {
+      background: var(--rlp-white); border: 1.5px solid var(--rlp-border);
+      padding: 10px 20px; border-radius: 40px;
+      font-size: 0.78rem; font-weight: 700;
+      color: var(--rlp-navy); text-transform: uppercase; letter-spacing: 0.08em;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .restural-lp-manufacturing-badge::before { content: '✓'; color: var(--rlp-green); font-weight: 800; }
+
+    /* ===== SCARCITY ===== */
+    .restural-lp-scarcity { padding: 40px 24px; background: var(--rlp-white); }
+    .restural-lp-scarcity-box {
+      max-width: 820px; margin: 0 auto;
+      display: grid; grid-template-columns: 4px 1fr auto; gap: 20px;
+      align-items: center;
+      background: linear-gradient(to right, #FFFBEF 0%, var(--rlp-white) 70%);
+      border: 1px solid rgba(224,168,50,0.35);
+      border-radius: 12px;
+      padding: 18px 22px;
+      box-shadow: 0 4px 16px rgba(14,31,90,0.06);
+    }
+    .restural-lp-scarcity-rule {
+      width: 4px; height: 56px;
+      background: linear-gradient(to bottom, var(--rlp-gold), var(--rlp-coral));
+      border-radius: 2px;
+    }
+    .restural-lp-scarcity-chip {
+      display: inline-block;
+      background: var(--rlp-coral-dark); color: var(--rlp-white);
+      font-size: 0.66rem; font-weight: 800;
+      text-transform: uppercase; letter-spacing: 0.16em;
+      padding: 4px 10px; border-radius: 4px;
+      margin-right: 10px;
+      vertical-align: middle;
+    }
+    .restural-lp-scarcity-body p {
+      display: inline;
+      font-size: 0.94rem; color: var(--rlp-navy); font-weight: 500; line-height: 1.55;
+    }
+    .restural-lp-scarcity-thumb {
+      width: 64px; height: 64px;
+      border-radius: 10px; overflow: hidden;
+      background: var(--rlp-offwhite);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: inset 0 0 0 1px rgba(14,31,90,0.08);
+    }
+    .restural-lp-scarcity-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    @media (max-width: 640px) {
+      .restural-lp-scarcity-box { grid-template-columns: 4px 1fr; gap: 16px; }
+      .restural-lp-scarcity-thumb { display: none; }
+    }
+
+    /* ===== SOCIAL PROOF (cream, carries the rhythm the old Real-People section held) ===== */
+    .restural-lp-social-proof {
+      padding: 72px 24px; background: var(--rlp-cream);
+      background-image: var(--rlp-dots-cream);
+      background-size: 28px 28px;
+    }
+    .restural-lp-social-proof-grid {
+      max-width: 720px; margin: 36px auto 0;
+      display: flex; flex-direction: column; gap: 24px;
+    }
+    .restural-lp-social-proof-card {
+      background: var(--rlp-white);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(14,31,90,0.08);
+      transition: transform 220ms ease, box-shadow 220ms ease;
+    }
+    .restural-lp-social-proof-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 36px rgba(14,31,90,0.14);
+    }
+    .restural-lp-social-proof-card img {
+      display: block; width: 100%; height: auto;
+    }
+    @media (max-width: 640px) {
+      .restural-lp-social-proof-grid { gap: 16px; padding: 0 12px; }
+    }
+
+    /* ===== WHO FOR / NOT FOR ===== */
+    .restural-lp-whofor {
+      padding: 76px 24px; background: var(--rlp-white);
+    }
+    .restural-lp-whofor-grid {
+      max-width: 980px; margin: 36px auto 0;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 22px;
+    }
+    .restural-lp-whofor-card {
+      border-radius: var(--rlp-radius); padding: 32px 30px;
+      border: 2px solid var(--rlp-border-light);
+    }
+    .restural-lp-whofor-card--for {
+      background: var(--rlp-green-light);
+      border-color: var(--rlp-green);
+    }
+    .restural-lp-whofor-card--not {
+      background: #FBF0EE;
+      border-color: var(--rlp-coral);
+    }
+    .restural-lp-whofor-card h3 {
+      font-size: 1.25rem; font-weight: 700; margin-bottom: 16px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .restural-lp-whofor-card--for h3 { color: var(--rlp-green-dark); }
+    .restural-lp-whofor-card--not h3 { color: var(--rlp-coral-dark); }
+    .restural-lp-whofor-card h3 .restural-lp-whofor-icon {
+      width: 32px; height: 32px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; font-weight: 800;
+    }
+    .restural-lp-whofor-card--for .restural-lp-whofor-icon { background: var(--rlp-green); color: var(--rlp-white); }
+    .restural-lp-whofor-card--not .restural-lp-whofor-icon { background: var(--rlp-coral); color: var(--rlp-white); }
+    .restural-lp-whofor-card ul { list-style: none; }
+    .restural-lp-whofor-card li {
+      font-size: 0.94rem; line-height: 1.55; padding: 8px 0;
+      color: var(--rlp-text); display: flex; align-items: flex-start; gap: 10px;
+      border-bottom: 1px dashed rgba(14,31,90,0.08);
+    }
+    .restural-lp-whofor-card li:last-child { border-bottom: none; }
+    .restural-lp-whofor-card--for li::before { content: '✓'; color: var(--rlp-green); font-weight: 800; min-width: 14px; }
+    .restural-lp-whofor-card--not li::before { content: '✕'; color: var(--rlp-coral); font-weight: 800; min-width: 14px; }
+
+    /* ===== FOUNDER ===== */
+    .restural-lp-founder {
+      background:
+        var(--rlp-dots-dark),
+        linear-gradient(160deg, var(--rlp-navy-deep) 0%, var(--rlp-navy) 60%, var(--rlp-navy-mid) 100%);
+      background-size: 26px 26px, 100% 100%;
+      color: var(--rlp-text-on-dark);
+      padding: 76px 24px;
+      position: relative; overflow: hidden;
+    }
+    .restural-lp-founder::before {
+      content: '';
+      position: absolute;
+      bottom: -120px; right: -80px;
+      width: 380px; height: 380px;
+      background: radial-gradient(circle, rgba(224,168,50,0.12) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .restural-lp-founder-inner {
+      max-width: 980px; margin: 0 auto;
+      display: grid; grid-template-columns: 320px 1fr; gap: 48px;
+      align-items: start; position: relative; z-index: 1;
+    }
+    .restural-lp-founder h2 {
+      font-size: 1.95rem; font-weight: 700; margin-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+    .restural-lp-founder p {
+      font-size: 1rem; line-height: 1.8; margin-bottom: 16px; opacity: 0.88;
+    }
+    .restural-lp-founder strong { color: var(--rlp-gold); font-weight: 600; }
+    .restural-lp-founder-ingredients {
+      display: flex; flex-wrap: wrap; align-items: stretch;
+      margin: 24px 0 14px;
+      padding: 12px 6px;
+      background: rgba(224,168,50,0.08);
+      border-top: 1px solid rgba(224,168,50,0.35);
+      border-bottom: 1px solid rgba(224,168,50,0.35);
+      border-radius: 8px;
+    }
+    .restural-lp-founder-ingredient {
+      display: flex; align-items: center; gap: 10px;
+      padding: 6px 16px;
+      position: relative;
+      background: transparent; border: none;
+      text-align: left;
+    }
+    .restural-lp-founder-ingredient + .restural-lp-founder-ingredient::before {
+      content: ''; position: absolute; left: 0; top: 20%; bottom: 20%;
+      width: 1px; background: rgba(224,168,50,0.35);
+    }
+    .restural-lp-founder-ingredient-icon {
+      width: 26px; height: 26px;
+      color: var(--rlp-gold);
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0;
+    }
+    .restural-lp-founder-ingredient-icon svg {
+      width: 100%; height: 100%;
+      stroke: currentColor; fill: none;
+      stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round;
+    }
+    .restural-lp-founder-ingredient-name {
+      font-size: 0.74rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--rlp-white); opacity: 0.95;
+      margin: 0;
+    }
+
+    /* ===== MAGIC HAPPENS ===== */
+    .restural-lp-magic {
+      padding: 0; position: relative; overflow: hidden;
+      min-height: 360px;
+      background: var(--rlp-navy-deep);
+    }
+    .restural-lp-magic .restural-lp-img-ph--wide {
+      aspect-ratio: unset; min-height: 360px;
+      border-radius: 0; background: linear-gradient(135deg, #1B3173, #081640);
+      border: none; color: rgba(255,255,255,0.15);
+    }
+    .restural-lp-magic-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(160deg, rgba(8,22,64,0.82) 0%, rgba(14,31,90,0.65) 100%);
+      background-image: var(--rlp-dots-dark);
+      background-size: 26px 26px, 100% 100%;
+      display: flex; align-items: center; justify-content: center;
+      padding: 40px 24px; text-align: center;
+    }
+    .restural-lp-magic-overlay-inner { max-width: 780px; color: var(--rlp-text-on-dark); }
+    .restural-lp-magic h2 {
+      font-size: 2.4rem; font-weight: 800; line-height: 1.15;
+      margin-bottom: 12px; letter-spacing: -0.02em;
+    }
+    .restural-lp-magic h2 em { font-style: normal; color: var(--rlp-gold); }
+    .restural-lp-magic p {
+      font-size: 1.05rem; line-height: 1.6; opacity: 0.85;
+      max-width: 580px; margin: 0 auto;
+    }
+
+    /* ===== BADGES ===== */
+    .restural-lp-badges {
+      padding: 72px 24px; background: var(--rlp-cream);
+      background-image: var(--rlp-dots-cream);
+      background-size: 28px 28px;
+    }
+    .restural-lp-badges-grid {
+      max-width: 920px; margin: 8px auto 0;
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 24px; text-align: center;
+    }
+    .restural-lp-badge-item {
+      background: transparent; border: none; padding: 0;
+      display: flex; flex-direction: column; align-items: center; gap: 14px;
+      transition: transform 220ms ease;
+    }
+    .restural-lp-badge-item:hover { transform: translateY(-4px); }
+    .restural-lp-badge-icon {
+      width: 120px; height: 120px;
+      border-radius: 50%;
+      overflow: hidden;
+      background: var(--rlp-white);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 6px 20px rgba(14,31,90,0.12);
+    }
+    .restural-lp-badge-icon img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+    }
+    .restural-lp-badge-label {
+      font-size: 0.88rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--rlp-navy);
+      max-width: 160px; line-height: 1.35;
+    }
+
+    /* ===== PRICING ===== */
+    .restural-lp-pricing {
+      padding: 76px 24px;
+      background:
+        var(--rlp-dots-dark),
+        linear-gradient(160deg, var(--rlp-navy-deep) 0%, var(--rlp-navy) 60%, var(--rlp-navy-mid) 100%);
+      background-size: 26px 26px, 100% 100%;
+      color: var(--rlp-text-on-dark); position: relative;
+    }
+    .restural-lp-pricing-timer { text-align: center; margin-bottom: 32px; }
+    .restural-lp-pricing-timer-label {
+      font-size: 0.86rem; opacity: 0.7; margin-bottom: 12px;
+      text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600;
+    }
+    .restural-lp-pricing-countdown { display: inline-flex; gap: 8px; }
+    .restural-lp-pricing-countdown-block {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      padding: 12px 16px; border-radius: var(--rlp-radius-sm);
+      text-align: center; min-width: 72px;
+    }
+    .restural-lp-pricing-countdown-number {
+      font-size: 1.7rem; font-weight: 800; display: block;
+      font-variant-numeric: tabular-nums; color: var(--rlp-gold);
+    }
+    .restural-lp-pricing-countdown-label {
+      font-size: 0.6rem; text-transform: uppercase;
+      letter-spacing: 0.1em; opacity: 0.6; font-weight: 600;
+    }
+    .restural-lp-pricing-counter {
+      text-align: center; font-size: 0.84rem; opacity: 0.75;
+      margin-top: 10px;
+    }
+    .restural-lp-pricing-counter strong { color: var(--rlp-gold); }
+    .restural-lp-pricing-cards {
+      max-width: 860px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 22px; align-items: start;
+    }
+    .restural-lp-pricing-card {
+      background: var(--rlp-white);
+      border: 2px solid var(--rlp-border);
+      border-radius: var(--rlp-radius);
+      padding: 150px 26px 30px; text-align: center;
+      color: var(--rlp-text); position: relative;
+      overflow: visible;
+    }
+    .restural-lp-pricing-card-banner {
+      position: absolute; top: 0; left: 0; right: 0;
+      padding: 26px 22px;
+      font-weight: 900;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      line-height: 1.15;
+      color: var(--rlp-white);
+      border-radius: calc(var(--rlp-radius) - 2px) calc(var(--rlp-radius) - 2px) 0 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 6px;
+      text-align: center; white-space: normal;
+      z-index: 2;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+    }
+    .restural-lp-pricing-card-banner-main { font-size: 1.55rem; }
+    .restural-lp-pricing-card-banner-sub { font-size: 1.25rem; opacity: 0.95; }
+    .restural-lp-pricing-card-banner--popular {
+      background: linear-gradient(90deg, var(--rlp-coral), var(--rlp-coral-dark));
+    }
+    .restural-lp-pricing-card-banner--save {
+      background: linear-gradient(90deg, var(--rlp-navy-mid), var(--rlp-navy));
+    }
+    .restural-lp-pricing-card--featured {
+      border-color: var(--rlp-green);
+      box-shadow: 0 14px 44px rgba(14,31,90,0.24);
+      transform: scale(1.03);
+    }
+    .restural-lp-pricing-card--featured::before {
+      content: ''; position: absolute;
+      top: -2px; left: -2px; right: -2px; height: 4px;
+      background: linear-gradient(90deg, var(--rlp-gold), var(--rlp-coral), var(--rlp-gold));
+      border-radius: var(--rlp-radius) var(--rlp-radius) 0 0;
+      z-index: 1;
+    }
+    .restural-lp-pricing-card-corner {
+      position: absolute; top: 14px; right: -6px;
+      background: var(--rlp-coral); color: var(--rlp-white);
+      font-size: 0.72rem; font-weight: 800; letter-spacing: 0.06em;
+      padding: 6px 12px; border-radius: 4px;
+      box-shadow: 0 4px 12px rgba(232,101,79,0.4);
+      text-transform: uppercase; z-index: 2;
+    }
+    .restural-lp-pricing-card-corner::after {
+      content: ''; position: absolute;
+      top: 100%; right: 0;
+      border: 3px solid var(--rlp-coral-dark);
+      border-bottom-color: transparent; border-right-color: transparent;
+    }
+    .restural-lp-pricing-card-badge {
+      position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+      background: var(--rlp-green); color: var(--rlp-white);
+      font-size: 0.7rem; font-weight: 800;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      padding: 6px 22px; border-radius: 20px; white-space: nowrap;
+    }
+    .restural-lp-pricing-card-title {
+      font-size: 1.25rem; font-weight: 700;
+      color: var(--rlp-navy); margin-bottom: 4px;
+    }
+    .restural-lp-pricing-card-subtitle {
+      font-size: 0.82rem; color: var(--rlp-text-light); margin-bottom: 18px;
+    }
+    .restural-lp-pricing-card-price-wrap { margin-bottom: 18px; }
+    .restural-lp-pricing-card-price-old {
+      font-size: 1.05rem; color: var(--rlp-text-light);
+      text-decoration: line-through; margin-right: 6px;
+    }
+    .restural-lp-pricing-card-price-new {
+      font-size: 2.4rem; font-weight: 900;
+      color: var(--rlp-navy); letter-spacing: -0.02em;
+    }
+    .restural-lp-pricing-card-price-per {
+      font-size: 0.82rem; color: var(--rlp-text-light);
+      display: block; margin-top: 2px;
+    }
+    .restural-lp-pricing-card-perks { list-style: none; text-align: left; margin: 0 0 22px; padding: 0; }
+    .restural-lp-pricing-card-perks li {
+      font-size: 0.92rem; padding: 6px 0;
+      display: flex; align-items: flex-start; gap: 10px;
+      color: var(--rlp-text);
+      font-weight: 500;
+    }
+    .restural-lp-pricing-card-perks li::before {
+      content: '✓'; flex-shrink: 0;
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 20px; height: 20px;
+      background: var(--rlp-green); color: var(--rlp-white);
+      border-radius: 50%; font-size: 0.72rem; font-weight: 800;
+      box-shadow: 0 2px 4px rgba(46,139,62,0.3);
+    }
+    .restural-lp-pricing-card .restural-lp-cta-primary {
+      width: 100%; padding: 20px 24px;
+      font-size: 1.12rem; letter-spacing: 0.08em;
+      box-shadow: 0 6px 22px rgba(46,139,62,0.4), inset 0 1px 0 rgba(255,255,255,0.2);
+    }
+    .restural-lp-pricing-card .restural-lp-cta-secondary {
+      padding: 18px 22px;
+      font-size: 1.02rem;
+    }
+    .restural-lp-pricing-card-ships {
+      font-size: 0.78rem; color: var(--rlp-green-dark);
+      font-weight: 700; margin-bottom: 10px;
+      text-transform: uppercase; letter-spacing: 0.06em;
+    }
+    .restural-lp-pricing-card-ships::before {
+      content: '🚚 ';
+    }
+    .restural-lp-pricing-card-trust {
+      margin-top: 14px; padding-top: 14px;
+      border-top: 1px dashed var(--rlp-border-light);
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .restural-lp-pricing-card-trust-item {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 0.78rem; color: var(--rlp-text-mid);
+      font-weight: 500;
+    }
+    .restural-lp-pricing-card-trust-item::before {
+      content: '✓'; flex-shrink: 0;
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 16px; height: 16px;
+      background: var(--rlp-green); color: var(--rlp-white);
+      border-radius: 50%; font-size: 0.58rem; font-weight: 800;
+    }
+    .restural-lp-pricing-flash {
+      max-width: 520px; margin: 0 auto 24px;
+      background: linear-gradient(135deg, var(--rlp-coral), var(--rlp-coral-dark));
+      color: var(--rlp-white);
+      padding: 12px 22px; border-radius: var(--rlp-radius-sm);
+      text-align: center; font-weight: 800;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      font-size: 0.88rem;
+      box-shadow: 0 6px 20px rgba(232,101,79,0.35), inset 0 1px 0 rgba(255,255,255,0.2);
+      border: 2px solid var(--rlp-gold);
+    }
+    .restural-lp-pricing-flash strong {
+      color: var(--rlp-gold);
+    }
+    .restural-lp-cta-secondary {
+      display: block; width: 100%; text-align: center;
+      background: transparent; color: var(--rlp-navy);
+      font-family: var(--rlp-font); font-size: 0.96rem; font-weight: 700;
+      padding: 15px 20px; border-radius: var(--rlp-radius-sm);
+      border: 2px solid var(--rlp-navy);
+      cursor: pointer; text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+      text-transform: uppercase; letter-spacing: 0.06em;
+    }
+    .restural-lp-cta-secondary:hover { background: var(--rlp-navy); color: var(--rlp-white); }
+    .restural-lp-pricing-guarantee {
+      text-align: center; margin-top: 32px;
+      font-size: 0.88rem; opacity: 0.82;
+    }
+    .restural-lp-pricing-guarantee strong { color: var(--rlp-gold); opacity: 1; }
+
+    /* ===== TRUSTPILOT ===== */
+    .restural-lp-trustpilot {
+      padding: 76px 24px; background: var(--rlp-offwhite);
+    }
+    .restural-lp-trustpilot-summary {
+      max-width: var(--rlp-max-width); margin: 0 auto 40px;
+      display: grid; grid-template-columns: 280px 1fr;
+      gap: 40px; align-items: center;
+      background: var(--rlp-white);
+      border: 1px solid var(--rlp-border-light);
+      border-radius: var(--rlp-radius);
+      padding: 32px 36px;
+    }
+    .restural-lp-trustpilot-score { text-align: center; }
+    .restural-lp-trustpilot-score-number {
+      font-size: 3.4rem; font-weight: 900; color: var(--rlp-navy);
+      line-height: 1; letter-spacing: -0.03em;
+    }
+    .restural-lp-trustpilot-score-number-sub {
+      font-size: 1.5rem; color: var(--rlp-text-light); font-weight: 600;
+    }
+    .restural-lp-trustpilot-score-stars {
+      color: var(--rlp-gold); font-size: 1.4rem;
+      letter-spacing: 2px; margin: 6px 0;
+    }
+    .restural-lp-trustpilot-score-count {
+      font-size: 0.82rem; color: var(--rlp-text-light);
+      font-weight: 500;
+    }
+    .restural-lp-trustpilot-bars { display: flex; flex-direction: column; gap: 6px; }
+    .restural-lp-trustpilot-bar {
+      display: grid; grid-template-columns: 42px 1fr 48px;
+      gap: 12px; align-items: center;
+    }
+    .restural-lp-trustpilot-bar-label { font-size: 0.84rem; font-weight: 600; color: var(--rlp-text-mid); }
+    .restural-lp-trustpilot-bar-track {
+      height: 10px; background: #EFEBE0;
+      border-radius: 5px; overflow: hidden;
+    }
+    .restural-lp-trustpilot-bar-fill {
+      height: 100%; background: var(--rlp-gold);
+      border-radius: 5px;
+    }
+    .restural-lp-trustpilot-bar-pct { font-size: 0.84rem; color: var(--rlp-text-mid); text-align: right; }
+
+    .restural-lp-trustpilot-tabs {
+      max-width: var(--rlp-max-width); margin: 0 auto 20px;
+      display: flex; gap: 8px; flex-wrap: wrap;
+      padding-bottom: 16px; border-bottom: 1px solid var(--rlp-border-light);
+    }
+    .restural-lp-trustpilot-tab {
+      background: var(--rlp-white); border: 1px solid var(--rlp-border);
+      padding: 8px 16px; border-radius: 18px;
+      font-size: 0.8rem; font-weight: 500; color: var(--rlp-text-mid);
+      cursor: default;
+    }
+    .restural-lp-trustpilot-tab--active {
+      background: var(--rlp-navy); color: var(--rlp-white);
+      border-color: var(--rlp-navy); font-weight: 600;
+    }
+    .restural-lp-trustpilot-reviews {
+      max-width: var(--rlp-max-width); margin: 0 auto;
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px;
+    }
+    .restural-lp-trustpilot-review {
+      background: var(--rlp-white);
+      border: 1px solid var(--rlp-border-light);
+      border-radius: var(--rlp-radius);
+      padding: 22px 24px;
+    }
+    .restural-lp-trustpilot-review-header {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 10px; padding-bottom: 10px;
+      border-bottom: 1px dashed var(--rlp-border-light);
+    }
+    .restural-lp-trustpilot-review-avatar {
+      width: 42px; height: 42px; border-radius: 50%;
+      background: var(--rlp-navy); color: var(--rlp-white);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 0.95rem;
+    }
+    .restural-lp-trustpilot-review-meta { flex: 1; line-height: 1.3; }
+    .restural-lp-trustpilot-review-name {
+      font-size: 0.92rem; font-weight: 700; color: var(--rlp-navy);
+    }
+    .restural-lp-trustpilot-review-subline {
+      font-size: 0.74rem; color: var(--rlp-text-light); margin-top: 2px;
+    }
+    .restural-lp-trustpilot-review-stars { color: var(--rlp-gold); font-size: 0.9rem; letter-spacing: 1px; }
+    .restural-lp-trustpilot-review-title {
+      font-size: 0.98rem; font-weight: 700;
+      color: var(--rlp-text); margin-bottom: 6px;
+    }
+    .restural-lp-trustpilot-review-body {
+      font-size: 0.9rem; line-height: 1.65; color: var(--rlp-text-mid);
+    }
+    .restural-lp-trustpilot-review-footer {
+      display: flex; gap: 14px; margin-top: 12px;
+      padding-top: 10px; border-top: 1px dashed var(--rlp-border-light);
+      font-size: 0.74rem; color: var(--rlp-text-light);
+    }
+
+    /* ===== FAQ ===== */
+    .restural-lp-faq {
+      padding: 76px 24px; background: var(--rlp-white);
+    }
+    .restural-lp-faq-list { max-width: 760px; margin: 0 auto; }
+    .restural-lp-faq-item {
+      border-bottom: 1px solid var(--rlp-border-light);
+    }
+    .restural-lp-faq-question {
+      width: 100%; background: none; border: none; padding: 20px 0;
+      font-family: var(--rlp-font); font-size: 1rem; font-weight: 600;
+      color: var(--rlp-navy); text-align: left; cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center; gap: 14px;
+    }
+    .restural-lp-faq-question:hover { color: var(--rlp-green); }
+    .restural-lp-faq-toggle {
+      font-size: 1.3rem; font-weight: 300;
+      transition: transform 0.2s;
+      min-width: 22px; text-align: center; color: var(--rlp-green);
+    }
+    .restural-lp-faq-item--open .restural-lp-faq-toggle { transform: rotate(45deg); }
+    .restural-lp-faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+    .restural-lp-faq-item--open .restural-lp-faq-answer { max-height: 500px; padding-bottom: 20px; }
+    .restural-lp-faq-answer p {
+      font-size: 0.94rem; color: var(--rlp-text-mid); line-height: 1.7;
+    }
+
+    /* ===== FINAL CTA ===== */
+    .restural-lp-final-cta {
+      padding: 84px 24px;
+      background:
+        var(--rlp-dots-dark),
+        linear-gradient(160deg, var(--rlp-navy-deep) 0%, var(--rlp-navy) 100%);
+      background-size: 26px 26px, 100% 100%;
+      color: var(--rlp-text-on-dark); text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .restural-lp-final-cta::before {
+      content: '';
+      position: absolute; top: -100px; right: -80px;
+      width: 360px; height: 360px;
+      background: radial-gradient(circle, rgba(224,168,50,0.14) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .restural-lp-final-cta-inner { max-width: 680px; margin: 0 auto; position: relative; z-index: 1; }
+    .restural-lp-final-cta h2 {
+      font-size: 2.3rem; font-weight: 800;
+      margin-bottom: 16px; letter-spacing: -0.02em; line-height: 1.15;
+    }
+    .restural-lp-final-cta h2 span { color: var(--rlp-gold); }
+    .restural-lp-final-cta p {
+      font-size: 1.04rem; opacity: 0.84; margin-bottom: 26px;
+    }
+
+    /* ===== FOOTER ===== */
+    .restural-lp-footer {
+      background: #06102E; color: var(--rlp-text-on-dark);
+      padding: 48px 24px 28px;
+    }
+    .restural-lp-footer-inner {
+      max-width: var(--rlp-max-width); margin: 0 auto; text-align: center;
+    }
+    .restural-lp-footer-logo {
+      font-size: 1.3rem; font-weight: 800; margin-bottom: 14px;
+      letter-spacing: -0.02em;
+    }
+    .restural-lp-footer-links {
+      display: flex; justify-content: center; gap: 20px;
+      flex-wrap: wrap; margin-bottom: 18px;
+    }
+    .restural-lp-footer-links a {
+      color: rgba(255,255,255,0.55); font-size: 0.8rem;
+      transition: color 0.2s;
+    }
+    .restural-lp-footer-links a:hover { color: var(--rlp-white); }
+    .restural-lp-footer-contact {
+      font-size: 0.8rem; color: rgba(255,255,255,0.4);
+      margin-bottom: 18px; line-height: 1.6;
+    }
+    .restural-lp-footer-disclaimer {
+      font-size: 0.7rem; color: rgba(255,255,255,0.25); line-height: 1.6;
+      max-width: 720px; margin: 0 auto;
+      padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    /* ===== STICKY BOTTOM BAR (mobile + desktop, shows after hero) ===== */
+    .restural-lp-sticky-bar {
+      position: fixed; left: 0; right: 0; bottom: 0;
+      background: var(--rlp-navy-deep);
+      border-top: 2px solid var(--rlp-gold);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center; gap: 12px;
+      z-index: 99;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.25);
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+    }
+    .restural-lp-sticky-bar-inner {
+      max-width: var(--rlp-max-width);
+      margin: 0 auto; width: 100%;
+      display: flex; align-items: center; gap: 16px;
+    }
+    .restural-lp-sticky-bar--visible { transform: translateY(0); }
+    .restural-lp-sticky-bar-copy {
+      flex: 1; color: var(--rlp-white); line-height: 1.2;
+    }
+    .restural-lp-sticky-bar-line1 {
+      font-size: 0.78rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      color: var(--rlp-gold);
+    }
+    .restural-lp-sticky-bar-line2 {
+      font-size: 0.68rem; opacity: 0.75; margin-top: 1px;
+    }
+    .restural-lp-sticky-bar .restural-lp-cta-primary {
+      padding: 11px 20px; font-size: 0.82rem; box-shadow: none;
+    }
+    body.restural-lp-sticky-active { padding-bottom: 76px; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .restural-lp-topbar {
+        font-size: 0.7rem; gap: 6px; flex-wrap: wrap;
+        justify-content: center; padding: 8px 12px;
+      }
+      .restural-lp-topbar-timer-block {
+        padding: 3px 7px; font-size: 0.78rem; min-width: 38px;
+      }
+      .restural-lp-nav { padding: 12px 16px; }
+      .restural-lp-nav-links { display: none; }
+      .restural-lp-nav-cart { font-size: 0.72rem; padding: 5px 10px; }
+      .restural-lp-flash-strip { font-size: 0.68rem; padding: 8px 12px; letter-spacing: 0.06em; }
+
+      .restural-lp-hero { padding: 32px 20px 28px; }
+      .restural-lp-hero::before, .restural-lp-hero::after { display: none; }
+      .restural-lp-hero-inner {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+          "navbar"
+          "menu"
+          "top"
+          "image"
+          "bottom";
+        text-align: center; gap: 20px;
+      }
+      .restural-lp-hero h1 { font-size: 1.65rem; }
+      .restural-lp-hero-eyebrow { font-size: 0.62rem; }
+      .restural-lp-hero-sub { margin: 0 auto 20px; font-size: 0.92rem; }
+      .restural-lp-hero-proof { justify-content: center; }
+      .restural-lp-hero-badges { justify-content: center; gap: 14px; }
+      .restural-lp-hero-badge { font-size: 0.66rem; }
+      .restural-lp-hero-badge-float { top: 10px; right: 8px; width: 86px; height: 86px; box-shadow: 0 0 0 3px var(--rlp-gold), 0 0 0 5px var(--rlp-coral-dark), 0 8px 22px rgba(0,0,0,0.3), inset 0 2px 0 rgba(255,255,255,0.2); animation: none; }
+      .restural-lp-hero-badge-float-num { font-size: 1.25rem; }
+      .restural-lp-hero-badge-float-day { font-size: 0.52rem; letter-spacing: 0.18em; }
+      .restural-lp-hero-badge-float-txt { font-size: 0.44rem; padding-top: 3px; margin-top: 4px; }
+      .restural-lp-hero-carousel { margin: 20px auto 0; }
+      .restural-lp-hero-image-col { padding-top: 0; }
+      .restural-lp-img-ph--arch { min-height: 320px; max-width: 280px; margin: 0 auto; border-radius: 180px 180px 18px 18px; }
+      .restural-lp-cta-primary { width: 100%; padding: 14px 20px; font-size: 0.9rem; }
+
+      .restural-lp-testimonials { padding: 40px 20px; }
+      .restural-lp-testimonials-grid { grid-template-columns: 1fr; }
+
+      .restural-lp-section-heading { font-size: 1.6rem; }
+      .restural-lp-section-heading-sub { font-size: 0.92rem; }
+
+      .restural-lp-problem { padding: 56px 20px; }
+      .restural-lp-problem-row { grid-template-columns: 1fr; gap: 24px; margin-bottom: 28px; }
+      .restural-lp-problem-row--reverse { direction: ltr; }
+
+      .restural-lp-cta-block { padding: 36px 20px; }
+      .restural-lp-cta-block p { font-size: 1.08rem; }
+
+      .restural-lp-belief { padding: 56px 20px; }
+      .restural-lp-belief-inner { grid-template-columns: 1fr; gap: 32px; text-align: center; }
+      .restural-lp-belief-quote { font-size: 1.2rem; }
+      .restural-lp-belief-image-stack { padding: 16px; max-width: 320px; margin: 0 auto; }
+      .restural-lp-belief-image-stack .restural-lp-img-ph--main { max-width: 100%; }
+      .restural-lp-belief-image-accent { width: 120px; bottom: 0; left: -6px; border-width: 4px; }
+      .restural-lp-belief-sticker { width: 68px; height: 68px; font-size: 0.6rem; top: -2px; right: 2px; }
+
+      .restural-lp-article { padding: 56px 20px; }
+      .restural-lp-article h3 { font-size: 1.2rem; }
+      .restural-lp-article-stat-number { font-size: 2.4rem; }
+      .restural-lp-article-stat--inline { flex-direction: row; gap: 16px; padding: 18px 20px; }
+      .restural-lp-article-stat--inline .restural-lp-article-stat-number { font-size: 2rem; }
+      .restural-lp-article-stats-panel { padding: 26px 22px; }
+      .restural-lp-article-stats-panel-grid { grid-template-columns: 1fr; gap: 18px; }
+      .restural-lp-article-stats-panel-num { font-size: 1.9rem; min-width: 56px; }
+      .restural-lp-article-inline-img { margin: 28px 0; }
+      .restural-lp-article-inline-img .restural-lp-img-ph { aspect-ratio: 4/3; }
+      .restural-lp-article-inline-img-sticker { font-size: 0.58rem; padding: 6px 10px; }
+      .restural-lp-article-pullquote { font-size: 1.08rem; padding: 22px 22px 22px 28px; margin: 30px 0; }
+
+      .restural-lp-timeline { padding: 56px 20px; }
+      .restural-lp-timeline-list::before { left: 14px; transform: none; }
+      .restural-lp-timeline-item,
+      .restural-lp-timeline-item--left,
+      .restural-lp-timeline-item--right { grid-template-columns: 1fr; grid-template-areas: "card"; gap: 0; padding-left: 36px; margin-bottom: 22px; }
+      .restural-lp-timeline-item::after { left: 14px; top: 28px; transform: translate(-50%, 0); }
+      .restural-lp-timeline-item--left .restural-lp-timeline-card::after,
+      .restural-lp-timeline-item--right .restural-lp-timeline-card::before { display: none; }
+      .restural-lp-timeline-item--right .restural-lp-timeline-card,
+      .restural-lp-timeline-item--left .restural-lp-timeline-card { text-align: left; }
+      .restural-lp-timeline-card { padding: 18px 20px; }
+      .restural-lp-timeline-card:hover { transform: none; }
+      .restural-lp-timeline-card:active { transform: scale(0.99); }
+
+      .restural-lp-howto { padding: 56px 20px; }
+      .restural-lp-howto-steps { grid-template-columns: 1fr; gap: 18px; }
+
+      .restural-lp-comparison { padding: 56px 20px; }
+      .restural-lp-comparison-grid { grid-template-columns: 1fr; }
+
+      .restural-lp-manufacturing { padding: 56px 20px; }
+      .restural-lp-manufacturing-image-wrap .restural-lp-img-ph { aspect-ratio: 4/3; }
+
+      .restural-lp-social-proof { padding: 56px 20px; }
+
+      .restural-lp-whofor { padding: 56px 20px; }
+      .restural-lp-whofor-grid { grid-template-columns: 1fr; gap: 16px; }
+      .restural-lp-whofor-card { padding: 26px 22px; }
+      .restural-lp-whofor-hero-image .restural-lp-img-ph { aspect-ratio: 4/3; }
+
+      .restural-lp-pricing-card-image { width: 110px; height: 110px; margin-bottom: 14px; }
+      .restural-lp-final-cta-image { width: 140px; height: 140px; margin-bottom: 20px; }
+      .restural-lp-final-cta-image-badge { width: 54px; height: 54px; font-size: 0.56rem; }
+
+      .restural-lp-founder { padding: 56px 20px; }
+      .restural-lp-founder-inner { grid-template-columns: 1fr; text-align: center; gap: 28px; }
+      .restural-lp-founder-ingredients { padding: 8px 4px; }
+      .restural-lp-founder-ingredient { padding: 6px 10px; flex: 1 1 45%; }
+      .restural-lp-founder-ingredient-name { font-size: 0.7rem; letter-spacing: 0.06em; }
+      .restural-lp-founder .restural-lp-divider--left { margin: 0 auto 22px; }
+
+      .restural-lp-magic { min-height: 260px; }
+      .restural-lp-magic .restural-lp-img-ph--wide { min-height: 260px; }
+      .restural-lp-magic h2 { font-size: 1.7rem; }
+      .restural-lp-magic p { font-size: 0.94rem; }
+
+      .restural-lp-badges { padding: 56px 20px; }
+      .restural-lp-badges-grid { grid-template-columns: repeat(2, 1fr); }
+
+      .restural-lp-pricing { padding: 56px 20px; }
+      .restural-lp-pricing-countdown-block { min-width: 60px; padding: 10px 12px; }
+      .restural-lp-pricing-countdown-number { font-size: 1.4rem; }
+      .restural-lp-pricing-cards { grid-template-columns: 1fr; }
+      .restural-lp-pricing-card--featured { transform: none; order: -1; }
+
+      .restural-lp-trustpilot { padding: 56px 20px; }
+      .restural-lp-trustpilot-summary { grid-template-columns: 1fr; gap: 20px; padding: 26px 22px; }
+      .restural-lp-trustpilot-reviews { grid-template-columns: 1fr; }
+
+      .restural-lp-faq { padding: 56px 20px; }
+      .restural-lp-faq-question { font-size: 0.92rem; }
+
+      .restural-lp-final-cta { padding: 60px 20px; }
+      .restural-lp-final-cta h2 { font-size: 1.7rem; }
+
+      body.restural-lp-sticky-active { padding-bottom: 68px; }
+    }
+
+    /* Hero: navbar + burger menu */
+    .restural-lp-hero-navbar {
+      grid-area: navbar;
+      display: flex; align-items: center; justify-content: space-between;
+      padding-bottom: 4px;
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+    }
+    .restural-lp-hero-logo {
+      font-family: var(--rlp-font);
+      font-size: 1.4rem; font-weight: 800; letter-spacing: -0.02em;
+      color: var(--rlp-white); line-height: 1;
+    }
+    .restural-lp-hero-logo-sub {
+      display: block; font-size: 0.62rem; font-weight: 500;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: rgba(255,255,255,0.6); margin-top: 4px;
+    }
+    .restural-lp-hero-burger {
+      display: inline-flex; flex-direction: column; justify-content: center;
+      gap: 4px; width: 34px; height: 34px; padding: 0;
+      background: transparent; border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 8px; cursor: pointer;
+    }
+    .restural-lp-hero-burger span {
+      display: block; height: 2px; width: 18px; margin: 0 auto;
+      background: var(--rlp-white); border-radius: 2px;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+    .restural-lp-hero-burger[aria-expanded="true"] span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .restural-lp-hero-burger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+    .restural-lp-hero-burger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+    .restural-lp-hero-menu {
+      grid-area: menu;
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+    .restural-lp-hero-menu--open { max-height: 560px; }
+    .restural-lp-hero-menu ul {
+      list-style: none; margin: 0; padding: 12px 0 6px;
+      display: flex; flex-wrap: wrap; gap: 8px 18px; justify-content: center;
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+    }
+    .restural-lp-hero-menu a {
+      font-size: 0.88rem; font-weight: 600; color: rgba(255,255,255,0.88);
+      padding: 6px 4px; transition: color 0.2s;
+    }
+    .restural-lp-hero-menu a:hover { color: var(--rlp-gold); }
+
+    /* Hero content split rows */
+    .restural-lp-hero-content-top { grid-area: top; }
+    .restural-lp-hero-content-bottom { grid-area: bottom; }
+
+    /* ============================================================
+       FUNNELISH OVERRIDES — keep these last so they win the cascade
+       ============================================================ */
+
+    /* Force Poppins everywhere inside our content (Funnelish's theme
+       can otherwise inherit a different font onto our nodes). */
+    [class*="restural-lp-"],
+    [class*="restural-lp-"] * {
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    }
+
+    /* Break top-level sections out of any width constraint Funnelish
+       puts on its Section / Row / Column wrappers. Pushes each section
+       to the full viewport width even if the parent is capped. */
+    body section[class^="restural-lp-"] {
+      width: 100vw !important;
+      max-width: 100vw !important;
+      margin-left: calc(50% - 50vw) !important;
+      margin-right: calc(50% - 50vw) !important;
+      position: relative;
+      left: 0;
+      right: 0;
+    }
+  </style>
+
+
+  <!-- TOP BAR (merged: offer + countdown) -->
+  <div class="restural-lp-topbar">
+    <span class="restural-lp-topbar-offer">🎁 Free Shipping + Bonus Recovery Guide</span>
+    <span class="restural-lp-topbar-divider" aria-hidden="true"></span>
+    <span class="restural-lp-topbar-label">⚡ Sale Ends In:</span>
+    <div class="restural-lp-topbar-timer">
+      <span class="restural-lp-topbar-timer-block"><span id="restural-lp-topbar-h">23</span> <span class="restural-lp-topbar-timer-label">Hours</span></span>
+      <span class="restural-lp-topbar-timer-block"><span id="restural-lp-topbar-m">59</span> <span class="restural-lp-topbar-timer-label">Min</span></span>
+      <span class="restural-lp-topbar-timer-block"><span id="restural-lp-topbar-s">59</span> <span class="restural-lp-topbar-timer-label">Sec</span></span>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <section class="restural-lp-hero">
+    <div class="restural-lp-hero-inner">
+      <div class="restural-lp-hero-navbar">
+        <a href="#" class="restural-lp-hero-logo">Restural<span class="restural-lp-hero-logo-sub">NeuroFuel Recovery Coffee</span></a>
+        <button class="restural-lp-hero-burger" id="restural-lp-burger-btn" aria-label="Open menu" aria-expanded="false" aria-controls="restural-lp-hero-menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+      <nav class="restural-lp-hero-menu" id="restural-lp-hero-menu" aria-label="Main navigation">
+        <ul>
+          <li><a href="#restural-lp-story">Our Story</a></li>
+          <li><a href="#restural-lp-timeline">Timeline</a></li>
+          <li><a href="#restural-lp-howto">How To Use</a></li>
+          <li><a href="#restural-lp-founder">Founder</a></li>
+          <li><a href="#restural-lp-pricing">Pricing</a></li>
+          <li><a href="#restural-lp-reviews">Reviews</a></li>
+          <li><a href="#restural-lp-faq-section">FAQs</a></li>
+          <li><a href="mailto:help@restural.com">Contact</a></li>
+          <li><a href="#">🛒 Cart</a></li>
+        </ul>
+      </nav>
+      <div class="restural-lp-hero-content-top">
+        <h1>The Morning Drink Thousands Are Using To <em>Rebuild Movement, Cognition, And Independence</em> After Neurological Damage</h1>
+        <p class="restural-lp-hero-sub">The simple morning blend that calms recovery-blocking inflammation and gives your brain the fuel it needs to rebuild itself.</p>
+      </div>
+      <div class="restural-lp-hero-content-bottom">
+        <div class="restural-lp-hero-proof">
+          <div class="restural-lp-hero-avatars">
+            <div class="restural-lp-img-ph restural-lp-img-ph--avatar restural-lp-img-ph--on-dark restural-lp-img-ph--loaded"><img src="https://assets.replocdn.com/projects/40749ede-d98e-4bd4-a112-7c86bc47db1e/228aa8d5-1533-4cb3-a733-d0df4619d728" alt="" /></div>
+            <div class="restural-lp-img-ph restural-lp-img-ph--avatar restural-lp-img-ph--on-dark restural-lp-img-ph--loaded" style="margin-left:-10px"><img src="https://assets.replocdn.com/projects/40749ede-d98e-4bd4-a112-7c86bc47db1e/b66cdb1b-2e13-4b42-8809-6a19518c5066" alt="" /></div>
+            <div class="restural-lp-img-ph restural-lp-img-ph--avatar restural-lp-img-ph--on-dark restural-lp-img-ph--loaded" style="margin-left:-10px"><img src="https://assets.replocdn.com/projects/40749ede-d98e-4bd4-a112-7c86bc47db1e/be10fa9e-7d22-477c-a6a0-bb013e5ebb22" alt="" /></div>
+            <div class="restural-lp-img-ph restural-lp-img-ph--avatar restural-lp-img-ph--on-dark restural-lp-img-ph--loaded" style="margin-left:-10px"><img src="https://assets.replocdn.com/projects/40749ede-d98e-4bd4-a112-7c86bc47db1e/dcf93927-9382-47b9-8ce7-aab92989ffae" alt="" /></div>
+          </div>
+          <span class="restural-lp-hero-stars">★★★★★</span>
+          <span class="restural-lp-hero-rating-text">Rated 4.7/5 by 12,000+ Customers</span>
+        </div>
+        <div style="margin-bottom: 18px;">
+          <a href="#" class="restural-lp-cta-primary">GET MY NEUROFUEL →</a>
+        </div>
+        <div class="restural-lp-hero-badges">
+          <span class="restural-lp-hero-badge"><span class="restural-lp-hero-badge-icon">✓</span> 365-Day Money Back Guarantee</span>
+          <span class="restural-lp-hero-badge"><span class="restural-lp-hero-badge-icon">✓</span> Free Shipping on Every Order</span>
+          <span class="restural-lp-hero-badge"><span class="restural-lp-hero-badge-icon">✓</span> Developed With Neurologists</span>
+        </div>
+
+        <!-- Rotating testimonial carousel (PQ-style) -->
+        <div class="restural-lp-hero-carousel" aria-live="polite">
+          <div class="restural-lp-hero-carousel-track" id="restural-lp-hero-carousel-track">
+            <div class="restural-lp-hero-carousel-item">
+              <div class="restural-lp-img-ph restural-lp-img-ph--small restural-lp-img-ph--loaded"><img src="https://assets.replocdn.com/projects/40749ede-d98e-4bd4-a112-7c86bc47db1e/e9f9042d-7731-4a6c-9f38-a26bd87efcc8" alt="" /></div>
+              <div>
+                <p class="restural-lp-hero-carousel-quote">"This coffee actually works. My movement is improving day by day."</p>
+                <p class="restural-lp-hero-carousel-name">Jonathan, USA <span class="restural-lp-hero-carousel-stars">★★★★★</span></p>
+              </div>
+            </div>
+            <div class="restural-lp-hero-carousel-item">
+              <div class="restural-lp-img-ph restural-lp-img-ph--small restural-lp-img-ph--loaded"><img src="https://assets.replocdn.com/projects/40749ede-d98e-4bd4-a112-7c86bc47db1e/deedbe79-b8c8-480d-882b-bb7ac9b1f5b5" alt="" /></div>
+              <div>
+                <p class="restural-lp-hero-carousel-quote">"After 8 months of plateau, NeuroFuel got things moving again."</p>
+                <p class="restural-lp-hero-carousel-name">Margaret, UK <span class="restural-lp-hero-carousel-stars">★★★★★</span></p>
+              </div>
+            </div>
+            <div class="restural-lp-hero-carousel-item">
+              <div class="restural-lp-img-ph restural-lp-img-ph--small restural-lp-img-ph--loaded"><img src="https://assets.replocdn.com/projects/40749ede-d98e-4bd4-a112-7c86bc47db1e/0aa12dd6-28e4-4c29-96b8-0e9cff61caed" alt="" /></div>
+              <div>
+                <p class="restural-lp-hero-carousel-quote">"First time walking to the mailbox without a cane in over a year."</p>
+                <p class="restural-lp-hero-carousel-name">David, USA <span class="restural-lp-hero-carousel-stars">★★★★★</span></p>
+              </div>
+            </div>
+            <div class="restural-lp-hero-carousel-item">
+              <div class="restural-lp-img-ph restural-lp-img-ph--small restural-lp-img-ph--loaded"><img src="https://assets.replocdn.com/projects/40749ede-d98e-4bd4-a112-7c86bc47db1e/05257eaf-46d3-4996-8e09-ced22c69e3a6" alt="" /></div>
+              <div>
+                <p class="restural-lp-hero-carousel-quote">"Brain fog cleared. I'm reading books and holding conversations again."</p>
+                <p class="restural-lp-hero-carousel-name">Susan, Canada <span class="restural-lp-hero-carousel-stars">★★★★★</span></p>
+              </div>
+            </div>
+            <div class="restural-lp-hero-carousel-item">
+              <div class="restural-lp-img-ph restural-lp-img-ph--small restural-lp-img-ph--loaded"><img src="https://assets.replocdn.com/projects/40749ede-d98e-4bd4-a112-7c86bc47db1e/b23e064b-ae17-47eb-a089-c625612b545b" alt="" /></div>
+              <div>
+                <p class="restural-lp-hero-carousel-quote">"My husband's speech improved so much. He's cracking jokes again."</p>
+                <p class="restural-lp-hero-carousel-name">Karen, USA <span class="restural-lp-hero-carousel-stars">★★★★★</span></p>
+              </div>
+            </div>
+          </div>
+          <div class="restural-lp-hero-carousel-dots" id="restural-lp-hero-carousel-dots">
+            <button class="restural-lp-hero-carousel-dot restural-lp-hero-carousel-dot--active" data-idx="0" aria-label="Slide 1"></button>
+            <button class="restural-lp-hero-carousel-dot" data-idx="1" aria-label="Slide 2"></button>
+            <button class="restural-lp-hero-carousel-dot" data-idx="2" aria-label="Slide 3"></button>
+            <button class="restural-lp-hero-carousel-dot" data-idx="3" aria-label="Slide 4"></button>
+            <button class="restural-lp-hero-carousel-dot" data-idx="4" aria-label="Slide 5"></button>
+          </div>
+        </div>
+      </div>
+      <div class="restural-lp-hero-image-col">
+        <div class="restural-lp-img-ph restural-lp-img-ph--arch restural-lp-img-ph--on-dark restural-lp-img-ph--loaded">
+          <img src="https://cdn.shopify.com/s/files/1/0741/8282/0057/files/nf_hero_powder_burst.png?v=1776580298" alt="NeuroFuel lion's mane coffee with ingredient burst" />
+        </div>
+        <div class="restural-lp-hero-badge-float" aria-label="365 day money back guarantee">
+          <div class="restural-lp-hero-badge-float-num">365</div>
+          <div class="restural-lp-hero-badge-float-day">Day</div>
+          <div class="restural-lp-hero-badge-float-txt">Money-Back<br>Guarantee</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE #1 -->
+  <div class="restural-lp-marquee" aria-hidden="true">
+    <div class="restural-lp-marquee-track">
+      <span class="restural-lp-marquee-item">Limited Time — Free Shipping <span class="restural-lp-marquee-dot"></span></span>
+      <span class="restural-lp-marquee-item">365-Day Guarantee <span class="restural-lp-marquee-dot"></span></span>
+      <span class="restural-lp-marquee-item">12,000+ Happy Customers <span class="restural-lp-marquee-dot"></span></span>
+      <span class="restural-lp-marquee-item">Limited Time — Free Shipping <span class="restural-lp-marquee-dot"></span></span>
+      <span class="restural-lp-marquee-item">365-Day Guarantee <span class="restural-lp-marquee-dot"></span></span>
+      <span class="restural-lp-marquee-item">12,000+ Happy Customers <span class="restural-lp-marquee-dot"></span></span>
+      <span class="restural-lp-marquee-item">Limited Time — Free Shipping <span class="restural-lp-marquee-dot"></span></span>
+      <span class="restural-lp-marquee-item">365-Day Guarantee <span class="restural-lp-marquee-dot"></span></span>
+    </div>
+  </div>
+
+  <!-- PROBLEM -->
+  <section class="restural-lp-problem" id="restural-lp-story">
+    <div class="restural-lp-problem-inner">
+      <h2 class="restural-lp-section-heading restural-lp-section-heading--light">Why Millions Are Stuck On A Recovery Plateau — And It's <em>Not Their Fault</em></h2>
+      <div class="restural-lp-divider"></div>
+
+      <div class="restural-lp-problem-row restural-lp-problem-row--reverse">
+        <div>
+          <p>Every year, millions of people are left fighting their way back from a stroke, Parkinson's, MS, FND, or nerve damage.</p>
+          <p>The hospital saves your life. The therapist retrains your movement. The doctor writes the prescription.</p>
+          <p><em>But nobody is feeding your brain what it needs to actually rebuild.</em></p>
+        </div>
+        <div class="restural-lp-img-ph restural-lp-img-ph--on-dark restural-lp-img-ph--square restural-lp-img-ph--loaded">
+          <img src="https://cdn.shopify.com/s/files/1/0741/8282/0057/files/Section_2_1.png?v=1776507075" alt="Recovery plateau — stuck between therapy and medication" loading="lazy" />
+        </div>
+      </div>
+
+      <div class="restural-lp-problem-row">
+        <div>
+          <h3 style="color: var(--rlp-white); font-size: 1.6rem; font-weight: 700; margin: 0 0 14px; line-height: 1.25;">So why does everyone hit the same wall?</h3>
+          <p>Because rehabilitation teaches your brain <em>what</em> to do. Medication manages your symptoms. But neither of them gives your brain the raw materials it needs to grow new connections.</p>
+          <p>Without those raw materials, your therapy plateaus. Your meds stop feeling like they're doing anything. And every day starts to feel like an uphill battle you can't win.</p>
+        </div>
+        <div class="restural-lp-img-ph restural-lp-img-ph--on-dark restural-lp-img-ph--square restural-lp-img-ph--loaded">
+          <video autoplay muted loop playsinline preload="metadata" aria-label="Person living with MS struggling with movement loss">
+            <source src="https://cdn.shopify.com/videos/c/o/v/6509cbc42f0f458d916d5e97f8c76552.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+
+      <div style="max-width:780px; margin: 0 auto; text-align: center;">
+        <h3 style="color: var(--rlp-white); font-size: 1.5rem; font-weight: 700; line-height: 1.3; margin: 0 0 16px;">At Restural, we believe your brain can still rebuild — <em>if you give it the fuel to do it.</em></h3>
+        <p>Your brain uses 20% of your body's total energy every single day. After a stroke, Parkinson's flare, MS episode, or nerve injury, that demand skyrockets. If you're not feeding it the specific compounds it needs to rebuild, <strong>you're recovering with the brakes on.</strong></p>
+        <p>That's exactly why we created NeuroFuel — to give your brain what modern medicine keeps forgetting to.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- BELIEF -->
+  <section class="restural-lp-belief" id="restural-lp-belief">
+    <div class="restural-lp-belief-inner">
+      <div>
+        <h2 class="restural-lp-section-heading" style="text-align: left; margin-top: 0;">Your Brain Doesn't Need More Pills. It Needs The Right <span class="restural-lp-belief-scribble">Fuel</span> — <em>Every Single Day.</em></h2>
+        <div class="restural-lp-divider restural-lp-divider--left"></div>
+        <p>We believe recovery shouldn't feel like a second job.</p>
+        <p>That's why NeuroFuel replaces a habit you already do every morning — your coffee — with one that actually helps your brain rebuild.</p>
+        <p>No pills to remember. No powders to mix. No complicated protocol to follow.</p>
+        <p>Just your morning cup, the way you always take it.</p>
+        <p><strong>Consistency is what rebuilds your brain.</strong> One cup, every morning, for 12 weeks. That's it.</p>
+      </div>
+      <div class="restural-lp-belief-image-stack">
+        <div class="restural-lp-belief-sticker">Daily<br>Protocol</div>
+        <div class="restural-lp-img-ph restural-lp-img-ph--main restural-lp-img-ph--loaded">
+          <img src="https://cdn.shopify.com/s/files/1/0741/8282/0057/files/8_1.png?v=1773224707" alt="NeuroFuel morning coffee scene" />
+        </div>
+        <div class="restural-lp-belief-image-accent">
+          <div class="restural-lp-img-ph restural-lp-img-ph--loaded">
+            <img src="https://cdn.shopify.com/s/files/1/0741/8282/0057/files/nf_cuh.png?v=1774238143" alt="NeuroFuel product close-up" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ARTICLE -->
+  <article class="restural-lp-article">
+    <div class="restural-lp-article-inner">
+      <h2 class="restural-lp-section-heading">How NeuroFuel Helps Your Brain <em>Rebuild</em></h2>
+      <div class="restural-lp-divider"></div>
+      <p class="restural-lp-article-byline">Reviewed by <strong>Dr. Steven Jones</strong>, Neurological Rehabilitation Specialist</p>
+
+      <p>Strokes, Parkinson's, MS, and nerve damage all damage the same thing: the connections your brain uses to send signals to your muscles.</p>
+      <p>The good news? Your brain can still rebuild those connections — at any age. It just needs the right fuel to do it.</p>
+
+      <figure class="restural-lp-article-inline-img">
+        <div class="restural-lp-img-ph restural-lp-img-ph--loaded">
+          <video autoplay muted loop playsinline preload="metadata" aria-label="Neuroplasticity visualisation">
+            <source src="https://cdn.shopify.com/videos/c/o/v/c49a7cf673954345bcc1d28e3938473a.mp4" type="video/mp4">
+          </video>
+        </div>
+        <span class="restural-lp-article-inline-img-sticker">The Science</span>
+        <p class="restural-lp-article-inline-img-caption">Neuroplasticity: how the adult brain forms new connections around damaged areas.</p>
+      </figure>
+
+      <h3>The Protein That Rebuilds Your Brain: NGF</h3>
+      <p><strong>NGF</strong> (Nerve Growth Factor) is the protein your brain uses to grow new connections. After a stroke or injury, your brain produces a burst of it — then it drops, fast. Once it drops, the rebuild stalls.</p>
+      <p><strong>Keeping NGF levels up is what keeps the rebuild going.</strong></p>
+
+      <figure class="restural-lp-article-inline-img">
+        <div class="restural-lp-img-ph restural-lp-img-ph--loaded">
+          <video autoplay muted loop playsinline preload="metadata" aria-label="NeuroFuel and its five ingredients in action">
+            <source src="https://cdn.shopify.com/videos/c/o/v/99aa26981daf44dc9e9ee314869e824f.mp4" type="video/mp4">
+          </video>
+        </div>
+        <span class="restural-lp-article-inline-img-sticker">The Mushroom</span>
+        <p class="restural-lp-article-inline-img-caption">Lion's mane — the only mushroom clinically shown to stimulate NGF.</p>
+      </figure>
+
+      <p>There's one natural ingredient scientists have documented as a direct NGF stimulator: <strong>Lion's Mane mushroom.</strong> Its two unique compounds — hericenones and erinacines — cross the blood-brain barrier and tell your brain to keep producing NGF long after your body would normally stop.</p>
+
+      <div class="restural-lp-article-stat restural-lp-article-stat--inline">
+        <div class="restural-lp-article-stat-number">4×</div>
+        <div class="restural-lp-article-stat-label">Higher NGF production in studies using lion's mane compounds versus controls.</div>
+      </div>
+
+      <h3>What Happened When 520 Patients Tried It</h3>
+      <p>In 2023, we sent NeuroFuel to 40 rehabilitation clinics and asked 520 patients — stroke, Parkinson's, nerve damage, MS — to add one cup to their routine. Here's what we saw after 3 months:</p>
+
+      <figure class="restural-lp-article-inline-img">
+        <div class="restural-lp-img-ph restural-lp-img-ph--loaded">
+          <video autoplay muted loop playsinline preload="metadata" aria-label="Patients progressing through recovery">
+            <source src="https://cdn.shopify.com/videos/c/o/v/1cbb0d464c2d43ccb407cc32448a7101.mp4" type="video/mp4">
+          </video>
+        </div>
+        <span class="restural-lp-article-inline-img-sticker">The Trial</span>
+        <p class="restural-lp-article-inline-img-caption">520 patients. 40 clinics. One cup a day for three months.</p>
+      </figure>
+
+      <div class="restural-lp-article-stats-panel">
+        <div class="restural-lp-article-stats-panel-head">
+          <p>After three months of a single daily cup across 40 rehabilitation clinics:</p>
+        </div>
+        <div class="restural-lp-article-stats-panel-grid">
+          <div class="restural-lp-article-stats-panel-item">
+            <div class="restural-lp-article-stats-panel-num">89%</div>
+            <div class="restural-lp-article-stats-panel-lbl">Reported major improvements in movement, control, and therapy effectiveness</div>
+          </div>
+          <div class="restural-lp-article-stats-panel-item">
+            <div class="restural-lp-article-stats-panel-num">82%</div>
+            <div class="restural-lp-article-stats-panel-lbl">Were walking better within 2–3 weeks</div>
+          </div>
+          <div class="restural-lp-article-stats-panel-item">
+            <div class="restural-lp-article-stats-panel-num">75%</div>
+            <div class="restural-lp-article-stats-panel-lbl">Reported less pain, stiffness, and tingling</div>
+          </div>
+          <div class="restural-lp-article-stats-panel-item">
+            <div class="restural-lp-article-stats-panel-num">72%</div>
+            <div class="restural-lp-article-stats-panel-lbl">Felt more mobile and more independent</div>
+          </div>
+        </div>
+      </div>
+
+      <blockquote class="restural-lp-article-pullquote">
+        The brain doesn't want more pills. It wants <em>fuel</em> — the right compounds, delivered every single day. When you give it that, the repair system it was born with comes back online.
+        <span class="restural-lp-article-pullquote-cite">— Dr. Steven Jones, Neurological Rehabilitation Specialist</span>
+      </blockquote>
+    </div>
+  </article>
+
+  <!-- TIMELINE -->
+  <section class="restural-lp-timeline" id="restural-lp-timeline">
+    <div class="restural-lp-container" style="text-align: center;">
+      <h2 class="restural-lp-section-heading">What Should I Expect From <em>Consistent Use</em> Of NeuroFuel?</h2>
+      <p class="restural-lp-section-heading-sub">Results build over time. Here's what 12,000+ customers have reported on their NeuroFuel recovery.</p>
+    </div>
+    <div class="restural-lp-timeline-list">
+      <div class="restural-lp-timeline-item restural-lp-timeline-item--left">
+        <div class="restural-lp-timeline-card">
+          <span class="restural-lp-timeline-badge">Week 1</span>
+          <h3>Sharper Mind, Clearer Head</h3>
+          <p>Less brain fog. Better focus. You start showing up to therapy with your head in the game.</p>
+        </div>
+      </div>
+      <div class="restural-lp-timeline-item restural-lp-timeline-item--right">
+        <div class="restural-lp-timeline-card">
+          <span class="restural-lp-timeline-badge">Week 2–3</span>
+          <h3>Early Movement Wins</h3>
+          <p>82% of users report steadier hands, better walking, and more control over small movements.</p>
+        </div>
+      </div>
+      <div class="restural-lp-timeline-item restural-lp-timeline-item--left">
+        <div class="restural-lp-timeline-card">
+          <span class="restural-lp-timeline-badge">Month 1</span>
+          <h3>Less Pain, Less Stiffness</h3>
+          <p>75% report less pain, stiffness, tingling, and numbness in the affected areas.</p>
+        </div>
+      </div>
+      <div class="restural-lp-timeline-item restural-lp-timeline-item--right">
+        <div class="restural-lp-timeline-card">
+          <span class="restural-lp-timeline-badge">Month 2</span>
+          <h3>Therapy Starts Working Again</h3>
+          <p>Your sessions feel more productive. Movements feel more natural. The plateau starts to break.</p>
+        </div>
+      </div>
+      <div class="restural-lp-timeline-item restural-lp-timeline-item--left">
+        <div class="restural-lp-timeline-card">
+          <span class="restural-lp-timeline-badge">Month 3</span>
+          <h3>Independence Milestones</h3>
+          <p>72% hit a personal win — dressing themselves, cooking, walking unassisted, or driving again.</p>
+        </div>
+      </div>
+      <div class="restural-lp-timeline-item restural-lp-timeline-item--right">
+        <div class="restural-lp-timeline-card">
+          <span class="restural-lp-timeline-badge">Month 6+</span>
+          <h3>The Rebuild Keeps Going</h3>
+          <p>Your brain keeps forming new connections long after most people give up on recovery.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW TO USE -->
+  <section class="restural-lp-howto" id="restural-lp-howto">
+    <div class="restural-lp-container" style="text-align: center;">
+      <h2 class="restural-lp-section-heading">Three Steps, <em>Two Minutes</em></h2>
+      <p class="restural-lp-section-heading-sub">No pills. No powders. No protocol. If you can brew a cup of coffee, you can follow the NeuroFuel recovery routine.</p>
+    </div>
+    <div class="restural-lp-howto-steps">
+      <div class="restural-lp-howto-step">
+        <div class="restural-lp-img-ph restural-lp-img-ph--square restural-lp-img-ph--loaded">
+          <video autoplay muted loop playsinline preload="metadata" aria-label="Opening a NeuroFuel sachet">
+            <source src="https://cdn.shopify.com/videos/c/o/v/8139901a18d449e98fd5b3a727e7fc87.mp4" type="video/mp4">
+          </video>
+        </div>
+        <span class="restural-lp-howto-step-number">1</span>
+        <h3>Open Your Packet</h3>
+        <p>Tear open a single-serve sachet and pour into your favorite mug.</p>
+      </div>
+      <div class="restural-lp-howto-step">
+        <div class="restural-lp-img-ph restural-lp-img-ph--square restural-lp-img-ph--loaded">
+          <video autoplay muted loop playsinline preload="metadata" aria-label="Adding hot water and stirring">
+            <source src="https://cdn.shopify.com/videos/c/o/v/8c42aed818ae4d4698c8c9ab21801f8d.mp4" type="video/mp4">
+          </video>
+        </div>
+        <span class="restural-lp-howto-step-number">2</span>
+        <h3>Add Hot Water & Stir</h3>
+        <p>Brew like instant coffee. Add milk or sweetener to taste.</p>
+      </div>
+      <div class="restural-lp-howto-step">
+        <div class="restural-lp-img-ph restural-lp-img-ph--square restural-lp-img-ph--loaded">
+          <video autoplay muted loop playsinline preload="metadata" aria-label="Drinking NeuroFuel coffee">
+            <source src="https://cdn.shopify.com/videos/c/o/v/45cda82ebfd14b07917c3a20f5dc60a5.mp4" type="video/mp4">
+          </video>
+        </div>
+        <span class="restural-lp-howto-step-number">3</span>
+        <h3>Drink Daily, Recover Faster</h3>
+        <p>One cup each morning. First results in 2-3 weeks.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MECHANISM COMPARISON (PQ-style X MORE grid) -->
+  <section class="restural-lp-comparison">
+    <div class="restural-lp-comparison-inner">
+      <div style="text-align: center;">
+        <h2 class="restural-lp-section-heading restural-lp-section-heading--light">The Most <em>Neurologically Active</em> Recovery Formula on the Market</h2>
+        <p class="restural-lp-section-heading-sub restural-lp-section-heading-sub--light">Here's why NeuroFuel outperforms pills, powders, and over-the-counter alternatives.</p>
+      </div>
+      <div class="restural-lp-comparison-grid">
+        <div class="restural-lp-comparison-card">
+          <div class="restural-lp-comparison-card-top">
+            <span class="restural-lp-comparison-card-abbr">NGF</span>
+            <span class="restural-lp-comparison-card-title">Nerve Growth Factor</span>
+          </div>
+          <div class="restural-lp-comparison-card-mid">
+            <img src="https://cdn.shopify.com/s/files/1/0741/8282/0057/files/nf_stats_card_ngf.png?v=1776580298" alt="Brain with gold neural pathways illustration" loading="lazy" />
+          </div>
+          <div class="restural-lp-comparison-card-bot">
+            <span class="restural-lp-comparison-card-stat">4<span class="restural-lp-comparison-card-stat-unit">×</span></span>
+            <span class="restural-lp-comparison-card-claim">NGF Synthesis</span>
+          </div>
+        </div>
+        <div class="restural-lp-comparison-card">
+          <div class="restural-lp-comparison-card-top">
+            <span class="restural-lp-comparison-card-abbr">BBB</span>
+            <span class="restural-lp-comparison-card-title">Blood-Brain Barrier</span>
+          </div>
+          <div class="restural-lp-comparison-card-mid">
+            <img src="https://cdn.shopify.com/s/files/1/0741/8282/0057/files/nf_stats_card_bbb.png?v=1776580299" alt="Droplet passing through cellular barrier illustration" loading="lazy" />
+          </div>
+          <div class="restural-lp-comparison-card-bot">
+            <span class="restural-lp-comparison-card-stat">92<span class="restural-lp-comparison-card-stat-unit">%</span></span>
+            <span class="restural-lp-comparison-card-claim">Barrier Crossing</span>
+          </div>
+        </div>
+        <div class="restural-lp-comparison-card">
+          <div class="restural-lp-comparison-card-top">
+            <span class="restural-lp-comparison-card-abbr">ABS</span>
+            <span class="restural-lp-comparison-card-title">Absorption Rate</span>
+          </div>
+          <div class="restural-lp-comparison-card-mid">
+            <img src="https://cdn.shopify.com/s/files/1/0741/8282/0057/files/nf_stats_card_bioav.png?v=1776580298" alt="Droplet absorbed into bloodstream illustration" loading="lazy" />
+          </div>
+          <div class="restural-lp-comparison-card-bot">
+            <span class="restural-lp-comparison-card-stat">3<span class="restural-lp-comparison-card-stat-unit">×</span></span>
+            <span class="restural-lp-comparison-card-claim">Bioavailability</span>
+          </div>
+        </div>
+        <div class="restural-lp-comparison-card">
+          <div class="restural-lp-comparison-card-top">
+            <span class="restural-lp-comparison-card-abbr">CAL</span>
+            <span class="restural-lp-comparison-card-title">Daily Routine</span>
+          </div>
+          <div class="restural-lp-comparison-card-mid">
+            <img src="https://cdn.shopify.com/s/files/1/0741/8282/0057/files/nf_stats_card_adherence.png?v=1776580298" alt="Calendar with daily checkmarks illustration" loading="lazy" />
+          </div>
+          <div class="restural-lp-comparison-card-bot">
+            <span class="restural-lp-comparison-card-stat">94<span class="restural-lp-comparison-card-stat-unit">%</span></span>
+            <span class="restural-lp-comparison-card-claim">Daily Adherence</span>
+          </div>
+        </div>
+        <div class="restural-lp-comparison-card">
+          <div class="restural-lp-comparison-card-top">
+            <span class="restural-lp-comparison-card-abbr">C+M</span>
+            <span class="restural-lp-comparison-card-title">Coffee + Mushroom</span>
+          </div>
+          <div class="restural-lp-comparison-card-mid">
+            <img src="https://cdn.shopify.com/s/files/1/0741/8282/0057/files/nf_stats_card_synergy.png?v=1776580299" alt="Coffee bean and lion's mane paired illustration" loading="lazy" />
+          </div>
+          <div class="restural-lp-comparison-card-bot">
+            <span class="restural-lp-comparison-card-stat">2<span class="restural-lp-comparison-card-stat-unit">×</span></span>
+            <span class="restural-lp-comparison-card-claim">Caffeine Synergy</span>
+          </div>
+        </div>
+        <div class="restural-lp-comparison-card">
+          <div class="restural-lp-comparison-card-top">
+            <span class="restural-lp-comparison-card-abbr">β-G</span>
+            <span class="restural-lp-comparison-card-title">Beta-Glucan Content</span>
+          </div>
+          <div class="restural-lp-comparison-card-mid">
+            <img src="https://cdn.shopify.com/s/files/1/0741/8282/0057/files/nf_stats_card_clinical.png?v=1776580298" alt="Beta-glucan molecular structure with clinical stamp illustration" loading="lazy" />
+          </div>
+          <div class="restural-lp-comparison-card-bot">
+            <span class="restural-lp-comparison-card-stat">30<span class="restural-lp-comparison-card-stat-unit">%</span></span>
+            <span class="restural-lp-comparison-card-claim">Clinical Grade</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCARCITY -->
+  <section class="restural-lp-scarcity">
+    <div class="restural-lp-scarcity-box">
+      <span class="restural-lp-scarcity-rule" aria-hidden="true"></span>
+      <div class="restural-lp-scarcity-body">
+        <span class="restural-lp-scarcity-chip">Limited</span>
+        <p>Due to high demand and specialized lion's mane sourcing, NeuroFuel inventory is allocated monthly. If this page is still live, stock is available for this cycle.</p>
+      </div>
+      <div class="restural-lp-scarcity-thumb">
+        <img src="https://cdn.shopify.com/s/files/1/0741/8282/0057/files/nf_content_bundle.png?v=1776580298" alt="NeuroFuel bundle" loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <!-- SOCIAL PROOF (Facebook comments / reviews) -->
+  <section class="restural-lp-social-proof">
+    <div class="restural-lp-container" style="text-align: center;">
+      <h2 class="restural-lp-section-heading">Real Reviews From <em>Real People</em></h2>
+      <p class="restural-lp-section-heading-sub">Thousands of comments, messages, and reviews from customers across Facebook, Instagram, and email.</p>
+    </div>
+    <div class="restural-lp-social-proof-grid">
+      <div class="restural-lp-social-proof-card"><img src="https://cdn.shopify.com/s/files/1/0741/8282/0057/files/hf_20260418_102051_02df5980-1e61-455d-9797-efb9f84596a7.png?v=1776507743" alt="Real customer review" loading="lazy" /></div>
+      <div class="restural-lp-social-proof-card"><img src="https://cdn.shopify.com/s/files/1/0741/8282/0057/files/hf_20260418_102102_ed4e539f-8b63-400b-a9ba-e0e08f09424f.png?v=1776507743" alt="Real customer review" loading="lazy" /></div>
+      <div class="restural-lp-social-proof-card"><img src="https://cdn.shopify.com/s/files/1/0741/8282/0057/files/hf_20260418_102028_e3c44e29-7ff8-4e48-8ebd-22e4e77f24e0.png?v=1776507745" alt="Real customer review" loading="lazy" /></div>
+      <div class="restural-lp-social-proof-card"><img src="https://cdn.shopify.com/s/files/1/0741/8282/0057/files/hf_20260418_102042_237b262e-2c37-4730-9df0-a5d3e889b9ed.png?v=1776507743" alt="Real customer review" loading="lazy" /></div>
+    </div>
+  </section>
+
+  <!-- FOUNDER / WHY WE BUILT IT -->
+  <section class="restural-lp-founder" id="restural-lp-founder">
+    <div class="restural-lp-founder-inner">
+      <div>
+        <div class="restural-lp-img-ph restural-lp-img-ph--on-dark restural-lp-img-ph--tall restural-lp-img-ph--loaded" style="border-radius: 160px 160px 20px 20px;">
+          <img src="https://cdn.shopify.com/s/files/1/0741/8282/0057/files/nf_founder_dr_jones.png?v=1776580298" alt="Dr. Steven Jones — medical advisor, Restural" loading="lazy" />
+        </div>
+      </div>
+      <div>
+        <h2>Why We Built It</h2>
+        <div class="restural-lp-divider restural-lp-divider--left"></div>
+        <p>We started Restural after watching someone we love fight their way back from a stroke — and run out of options that actually helped.</p>
+        <p>The pills didn't move the needle. The therapy plateaued. And nobody was putting the actual research — neuroplasticity, NGF, lion's mane — into something simple enough to use every day.</p>
+        <p>So we built it ourselves.</p>
+        <p><strong>NeuroFuel is a coffee because recovery shouldn't feel like another prescription.</strong> It's engineered because guessing isn't good enough. And it's guaranteed for a full 365 days because we know what it does.</p>
+        <p>We built it for the people whose therapy has stalled. For the families still fighting five years in. For anyone modern medicine has run out of answers for.</p>
+        <p><em>That's who we built it for. Because nobody else was going to.</em></p>
+        <h3 style="font-size: 1.25rem; font-weight: 700; margin: 26px 0 14px; color: var(--rlp-gold);">What's Inside Every Cup</h3>
+        <div class="restural-lp-founder-ingredients">
+          <div class="restural-lp-founder-ingredient">
+            <div class="restural-lp-founder-ingredient-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11a8 8 0 0 1 16 0Z"/><path d="M9 11v7a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-7"/></svg></div>
+            <p class="restural-lp-founder-ingredient-name">Lion's Mane Extract</p>
+          </div>
+          <div class="restural-lp-founder-ingredient">
+            <div class="restural-lp-founder-ingredient-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="12" rx="5" ry="8"/><path d="M12 5c0 2 2 3 2 5s-2 3-2 5 2 3 2 5"/></svg></div>
+            <p class="restural-lp-founder-ingredient-name">Premium Coffee</p>
+          </div>
+          <div class="restural-lp-founder-ingredient">
+            <div class="restural-lp-founder-ingredient-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4c-1 8-6 13-14 14 1-8 6-13 14-14Z"/><path d="M6 18 14 10"/></svg></div>
+            <p class="restural-lp-founder-ingredient-name">Natural Adaptogens</p>
+          </div>
+          <div class="restural-lp-founder-ingredient">
+            <div class="restural-lp-founder-ingredient-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3c-3 4-5 7-5 11a5 5 0 0 0 10 0c0-2-1-3-2-4 0 2-1 3-2 3 1-3 0-6-1-10Z"/></svg></div>
+            <p class="restural-lp-founder-ingredient-name">Anti-Inflammatories</p>
+          </div>
+          <div class="restural-lp-founder-ingredient">
+            <div class="restural-lp-founder-ingredient-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5a3 3 0 0 0-3 3v8a3 3 0 0 0 3 3"/><path d="M15 5a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3"/><path d="M12 5v14"/></svg></div>
+            <p class="restural-lp-founder-ingredient-name">Neuroprotective</p>
+          </div>
+          <div class="restural-lp-founder-ingredient">
+            <div class="restural-lp-founder-ingredient-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></div>
+            <p class="restural-lp-founder-ingredient-name">Circulation Boost</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BADGES -->
+  <section class="restural-lp-badges">
+    <div class="restural-lp-container" style="text-align: center;">
+      <h2 class="restural-lp-section-heading">The NeuroFuel <em>Promise</em></h2>
+      <div class="restural-lp-divider"></div>
+    </div>
+    <div class="restural-lp-badges-grid">
+      <div class="restural-lp-badge-item">
+        <div class="restural-lp-badge-icon"><img src="https://cdn.shopify.com/s/files/1/0741/8282/0057/files/nf_promise_clinical_natural.png?v=1776580298" alt="" loading="lazy" /></div>
+        <span class="restural-lp-badge-label">Clinically Backed Natural Ingredients</span>
+      </div>
+      <div class="restural-lp-badge-item">
+        <div class="restural-lp-badge-icon"><img src="https://cdn.shopify.com/s/files/1/0741/8282/0057/files/nf_promise_noninvasive.png?v=1776580298" alt="" loading="lazy" /></div>
+        <span class="restural-lp-badge-label">Non-Invasive</span>
+      </div>
+      <div class="restural-lp-badge-item">
+        <div class="restural-lp-badge-icon"><img src="https://cdn.shopify.com/s/files/1/0741/8282/0057/files/nf_promise_pillfree.png?v=1776580298" alt="" loading="lazy" /></div>
+        <span class="restural-lp-badge-label">Pill-Free</span>
+      </div>
+      <div class="restural-lp-badge-item">
+        <div class="restural-lp-badge-icon"><img src="https://cdn.shopify.com/s/files/1/0741/8282/0057/files/nf_promise_sideeffectfree.png?v=1776580298" alt="" loading="lazy" /></div>
+        <span class="restural-lp-badge-label">Side-Effect Free</span>
+      </div>
+    </div>
+    <div class="restural-lp-container" style="max-width: 720px; text-align: center; margin-top: 40px;">
+      <p style="font-size: 1.05rem; line-height: 1.7; color: var(--rlp-text-dark);">We've put NeuroFuel in the hands of 12,000+ customers. Tested it across 40 rehabilitation clinics. Tracked 520 patients through three months of recovery. The results are why we stand behind every cup with a full <strong>365-day money-back guarantee</strong> — the longest in the industry.</p>
+      <p style="font-size: 1.1rem; font-weight: 700; color: var(--rlp-navy); margin-top: 14px;">If NeuroFuel doesn't help you rebuild, you don't pay. That's the deal.</p>
+    </div>
+  </section>
+
+  <!-- MARQUEE #2 -->
+  <div class="restural-lp-marquee" aria-hidden="true">
+    <div class="restural-lp-marquee-track">
+      <span class="restural-lp-marquee-item">Sale Ends Tonight <span class="restural-lp-marquee-dot"></span></span>
+      <span class="restural-lp-marquee-item">Free Shipping Included <span class="restural-lp-marquee-dot"></span></span>
+      <span class="restural-lp-marquee-item">+ Free Recovery Guide <span class="restural-lp-marquee-dot"></span></span>
+      <span class="restural-lp-marquee-item">Sale Ends Tonight <span class="restural-lp-marquee-dot"></span></span>
+      <span class="restural-lp-marquee-item">Free Shipping Included <span class="restural-lp-marquee-dot"></span></span>
+      <span class="restural-lp-marquee-item">+ Free Recovery Guide <span class="restural-lp-marquee-dot"></span></span>
+      <span class="restural-lp-marquee-item">Sale Ends Tonight <span class="restural-lp-marquee-dot"></span></span>
+      <span class="restural-lp-marquee-item">Free Shipping Included <span class="restural-lp-marquee-dot"></span></span>
+    </div>
+  </div>
+
+  <!-- PRICING -->
+  <section class="restural-lp-pricing" id="restural-lp-pricing">
+    <div class="restural-lp-container" style="text-align: center;">
+      <h2 class="restural-lp-section-heading restural-lp-section-heading--light">Your <em>Recovery Plan</em></h2>
+      <div class="restural-lp-divider"></div>
+    </div>
+    <div class="restural-lp-pricing-timer">
+      <p class="restural-lp-pricing-timer-label">Sale pricing expires in</p>
+      <div class="restural-lp-pricing-countdown">
+        <div class="restural-lp-pricing-countdown-block"><span class="restural-lp-pricing-countdown-number" id="restural-lp-cd-hours">23</span><span class="restural-lp-pricing-countdown-label">Hours</span></div>
+        <div class="restural-lp-pricing-countdown-block"><span class="restural-lp-pricing-countdown-number" id="restural-lp-cd-minutes">59</span><span class="restural-lp-pricing-countdown-label">Minutes</span></div>
+        <div class="restural-lp-pricing-countdown-block"><span class="restural-lp-pricing-countdown-number" id="restural-lp-cd-seconds">59</span><span class="restural-lp-pricing-countdown-label">Seconds</span></div>
+      </div>
+      <p class="restural-lp-pricing-counter"><strong>4,014</strong> customers ordered today</p>
+    </div>
+    <div class="restural-lp-pricing-cards">
+      <div class="restural-lp-pricing-card restural-lp-pricing-card--featured">
+        <span class="restural-lp-pricing-card-banner restural-lp-pricing-card-banner--popular">
+          <span class="restural-lp-pricing-card-banner-main">3 Months Autoship</span>
+          <span class="restural-lp-pricing-card-banner-sub">Buy 2 Get 1 Free</span>
+        </span>
+        <div class="restural-lp-pricing-card-image">
+          <div class="restural-lp-img-ph restural-lp-img-ph--loaded">
+            <img class="restural-lp-pricing-card-main-img" src="https://cdn.shopify.com/s/files/1/0741/8282/0057/files/nf_product_3pack.png?v=1776580299" alt="NeuroFuel 3-month autoship" />
+          </div>
+        </div>
+        <div class="restural-lp-pricing-card-thumbs">
+          <button type="button" class="restural-lp-pricing-card-thumb restural-lp-pricing-card-thumb--active" data-src="https://cdn.shopify.com/s/files/1/0741/8282/0057/files/nf_product_3pack.png?v=1776580299" aria-label="View: NeuroFuel 3-pack"><img src="https://cdn.shopify.com/s/files/1/0741/8282/0057/files/nf_product_3pack.png?v=1776580299" alt="" loading="lazy" /></button>
+          <button type="button" class="restural-lp-pricing-card-thumb" data-src="https://cdn.shopify.com/s/files/1/0741/8282/0057/files/1_cc8d2b53-ee40-4c42-865b-2332af56f626.png?v=1758869550" aria-label="View: Product hero"><img src="https://cdn.shopify.com/s/files/1/0741/8282/0057/files/1_cc8d2b53-ee40-4c42-865b-2332af56f626.png?v=1758869550" alt="" loading="lazy" /></button>
+          <button type="button" class="restural-lp-pricing-card-thumb" data-src="https://cdn.shopify.com/s/files/1/0741/8282/0057/files/8_1.png?v=1773224707" aria-label="View: Morning coffee scene"><img src="https://cdn.shopify.com/s/files/1/0741/8282/0057/files/8_1.png?v=1773224707" alt="" loading="lazy" /></button>
+          <button type="button" class="restural-lp-pricing-card-thumb" data-src="https://cdn.shopify.com/s/files/1/0741/8282/0057/files/2_b8612419-abe4-4815-887f-01052d31dd30.png?v=1773224707" aria-label="View: Product detail"><img src="https://cdn.shopify.com/s/files/1/0741/8282/0057/files/2_b8612419-abe4-4815-887f-01052d31dd30.png?v=1773224707" alt="" loading="lazy" /></button>
+          <button type="button" class="restural-lp-pricing-card-thumb" data-src="https://cdn.shopify.com/s/files/1/0741/8282/0057/files/3_a2c6d81d-1641-4487-9e5a-1f6ff4c15522.png?v=1773224707" aria-label="View: Product detail"><img src="https://cdn.shopify.com/s/files/1/0741/8282/0057/files/3_a2c6d81d-1641-4487-9e5a-1f6ff4c15522.png?v=1773224707" alt="" loading="lazy" /></button>
+          <button type="button" class="restural-lp-pricing-card-thumb" data-src="https://cdn.shopify.com/s/files/1/0741/8282/0057/files/6_2_cd21c43f-2646-4d78-813e-dffeeab2ee8f.png?v=1773224707" aria-label="View: Ingredients"><img src="https://cdn.shopify.com/s/files/1/0741/8282/0057/files/6_2_cd21c43f-2646-4d78-813e-dffeeab2ee8f.png?v=1773224707" alt="" loading="lazy" /></button>
+        </div>
+        <div class="restural-lp-pricing-card-price-wrap">
+          <span class="restural-lp-pricing-card-price-old">$179.85</span>
+          <span class="restural-lp-pricing-card-price-new">$119.85</span>
+          <span class="restural-lp-pricing-card-price-per">+ free shipping</span>
+        </div>
+        <ul class="restural-lp-pricing-card-perks">
+          <li>12 weeks of NeuroFuel (90 servings)</li>
+          <li>Free shipping on every order</li>
+          <li>Free recovery guide ($19 value)</li>
+          <li>Locked-in sale pricing on every refill</li>
+          <li>Cancel, skip, or pause anytime</li>
+        </ul>
+        <a href="#" class="restural-lp-cta-primary">Add to Cart</a>
+        <div class="restural-lp-pricing-card-trust">
+          <span class="restural-lp-pricing-card-trust-item">365-Day Money-Back Guarantee</span>
+          <span class="restural-lp-pricing-card-trust-item">Free Shipping On Every Order</span>
+          <span class="restural-lp-pricing-card-trust-item">Pause Or Cancel In 2 Clicks</span>
+        </div>
+      </div>
+      <div class="restural-lp-pricing-card">
+        <span class="restural-lp-pricing-card-banner restural-lp-pricing-card-banner--save">
+          <span class="restural-lp-pricing-card-banner-main">1 Month Autoship</span>
+          <span class="restural-lp-pricing-card-banner-sub">& Save</span>
+        </span>
+        <div class="restural-lp-pricing-card-image">
+          <div class="restural-lp-img-ph restural-lp-img-ph--loaded">
+            <img class="restural-lp-pricing-card-main-img" src="https://cdn.shopify.com/s/files/1/0741/8282/0057/files/nf_product_1box_cream.png?v=1776580298" alt="NeuroFuel 1-month supply" />
+          </div>
+        </div>
+        <div class="restural-lp-pricing-card-thumbs">
+          <button type="button" class="restural-lp-pricing-card-thumb restural-lp-pricing-card-thumb--active" data-src="https://cdn.shopify.com/s/files/1/0741/8282/0057/files/nf_product_1box_cream.png?v=1776580298" aria-label="View: NeuroFuel 1-box"><img src="https://cdn.shopify.com/s/files/1/0741/8282/0057/files/nf_product_1box_cream.png?v=1776580298" alt="" loading="lazy" /></button>
+          <button type="button" class="restural-lp-pricing-card-thumb" data-src="https://cdn.shopify.com/s/files/1/0741/8282/0057/files/1_cc8d2b53-ee40-4c42-865b-2332af56f626.png?v=1758869550" aria-label="View: Product hero"><img src="https://cdn.shopify.com/s/files/1/0741/8282/0057/files/1_cc8d2b53-ee40-4c42-865b-2332af56f626.png?v=1758869550" alt="" loading="lazy" /></button>
+          <button type="button" class="restural-lp-pricing-card-thumb" data-src="https://cdn.shopify.com/s/files/1/0741/8282/0057/files/8_1.png?v=1773224707" aria-label="View: Morning coffee scene"><img src="https://cdn.shopify.com/s/files/1/0741/8282/0057/files/8_1.png?v=1773224707" alt="" loading="lazy" /></button>
+          <button type="button" class="restural-lp-pricing-card-thumb" data-src="https://cdn.shopify.com/s/files/1/0741/8282/0057/files/2_b8612419-abe4-4815-887f-01052d31dd30.png?v=1773224707" aria-label="View: Product detail"><img src="https://cdn.shopify.com/s/files/1/0741/8282/0057/files/2_b8612419-abe4-4815-887f-01052d31dd30.png?v=1773224707" alt="" loading="lazy" /></button>
+          <button type="button" class="restural-lp-pricing-card-thumb" data-src="https://cdn.shopify.com/s/files/1/0741/8282/0057/files/3_a2c6d81d-1641-4487-9e5a-1f6ff4c15522.png?v=1773224707" aria-label="View: Product detail"><img src="https://cdn.shopify.com/s/files/1/0741/8282/0057/files/3_a2c6d81d-1641-4487-9e5a-1f6ff4c15522.png?v=1773224707" alt="" loading="lazy" /></button>
+          <button type="button" class="restural-lp-pricing-card-thumb" data-src="https://cdn.shopify.com/s/files/1/0741/8282/0057/files/6_2_cd21c43f-2646-4d78-813e-dffeeab2ee8f.png?v=1773224707" aria-label="View: Ingredients"><img src="https://cdn.shopify.com/s/files/1/0741/8282/0057/files/6_2_cd21c43f-2646-4d78-813e-dffeeab2ee8f.png?v=1773224707" alt="" loading="lazy" /></button>
+        </div>
+        <div class="restural-lp-pricing-card-price-wrap">
+          <span class="restural-lp-pricing-card-price-old">$59.95</span>
+          <span class="restural-lp-pricing-card-price-new">$49.95</span>
+          <span class="restural-lp-pricing-card-price-per">per month · free shipping</span>
+        </div>
+        <ul class="restural-lp-pricing-card-perks">
+          <li>1 month of NeuroFuel (30 servings)</li>
+          <li>Free shipping on every order</li>
+          <li>Sale pricing locked for life</li>
+          <li>Cancel, skip, or pause anytime</li>
+        </ul>
+        <a href="#" class="restural-lp-cta-secondary">Add to Cart</a>
+        <div class="restural-lp-pricing-card-trust">
+          <span class="restural-lp-pricing-card-trust-item">365-Day Money-Back Guarantee</span>
+          <span class="restural-lp-pricing-card-trust-item">Free Shipping On Every Order</span>
+          <span class="restural-lp-pricing-card-trust-item">One-Tap Cancellation</span>
+        </div>
+      </div>
+    </div>
+    <p class="restural-lp-pricing-guarantee"><strong>365-Day Results Guarantee.</strong> No improvement? Full refund. Less than 0.5% ever return.</p>
+  </section>
+
+  <!-- TRUSTPILOT -->
+  <section class="restural-lp-trustpilot" id="restural-lp-reviews">
+    <div class="restural-lp-container" style="text-align: center;">
+      <h2 class="restural-lp-section-heading">What Customers <em>Actually Say</em></h2>
+      <div class="restural-lp-divider"></div>
+    </div>
+    <div class="restural-lp-trustpilot-summary">
+      <div class="restural-lp-trustpilot-score">
+        <div>
+          <span class="restural-lp-trustpilot-score-number">4.7</span><span class="restural-lp-trustpilot-score-number-sub"> / 5.0</span>
+        </div>
+        <div class="restural-lp-trustpilot-score-stars">★★★★★</div>
+        <p class="restural-lp-trustpilot-score-count">Based on 12,038 verified reviews</p>
+      </div>
+      <div class="restural-lp-trustpilot-bars">
+        <div class="restural-lp-trustpilot-bar">
+          <span class="restural-lp-trustpilot-bar-label">5 ★</span>
+          <div class="restural-lp-trustpilot-bar-track"><div class="restural-lp-trustpilot-bar-fill" style="width: 90%"></div></div>
+          <span class="restural-lp-trustpilot-bar-pct">90%</span>
+        </div>
+        <div class="restural-lp-trustpilot-bar">
+          <span class="restural-lp-trustpilot-bar-label">4 ★</span>
+          <div class="restural-lp-trustpilot-bar-track"><div class="restural-lp-trustpilot-bar-fill" style="width: 7%"></div></div>
+          <span class="restural-lp-trustpilot-bar-pct">7%</span>
+        </div>
+        <div class="restural-lp-trustpilot-bar">
+          <span class="restural-lp-trustpilot-bar-label">3 ★</span>
+          <div class="restural-lp-trustpilot-bar-track"><div class="restural-lp-trustpilot-bar-fill" style="width: 2%"></div></div>
+          <span class="restural-lp-trustpilot-bar-pct">2%</span>
+        </div>
+        <div class="restural-lp-trustpilot-bar">
+          <span class="restural-lp-trustpilot-bar-label">2 ★</span>
+          <div class="restural-lp-trustpilot-bar-track"><div class="restural-lp-trustpilot-bar-fill" style="width: 0%"></div></div>
+          <span class="restural-lp-trustpilot-bar-pct">0%</span>
+        </div>
+        <div class="restural-lp-trustpilot-bar">
+          <span class="restural-lp-trustpilot-bar-label">1 ★</span>
+          <div class="restural-lp-trustpilot-bar-track"><div class="restural-lp-trustpilot-bar-fill" style="width: 1%"></div></div>
+          <span class="restural-lp-trustpilot-bar-pct">1%</span>
+        </div>
+      </div>
+    </div>
+    <div class="restural-lp-trustpilot-tabs">
+      <span class="restural-lp-trustpilot-tab restural-lp-trustpilot-tab--active">Most Recent</span>
+      <span class="restural-lp-trustpilot-tab">Highest Rated</span>
+      <span class="restural-lp-trustpilot-tab">With Photos</span>
+      <span class="restural-lp-trustpilot-tab">Most Helpful</span>
+    </div>
+    <div class="restural-lp-trustpilot-reviews">
+      <div class="restural-lp-trustpilot-review">
+        <div class="restural-lp-trustpilot-review-header">
+          <div class="restural-lp-trustpilot-review-avatar">HB</div>
+          <div class="restural-lp-trustpilot-review-meta">
+            <p class="restural-lp-trustpilot-review-name">Heather B.</p>
+            <p class="restural-lp-trustpilot-review-subline">🇺🇸 United States · 3 days ago</p>
+          </div>
+          <span class="restural-lp-trustpilot-review-stars">★★★★★</span>
+        </div>
+        <p class="restural-lp-trustpilot-review-title">Four months in, real progress</p>
+        <p class="restural-lp-trustpilot-review-body">Going well. Four months in and I've noticed consistent gains — my balance is measurably better, my therapist even commented on it. I take it every morning without fail.</p>
+        <div class="restural-lp-trustpilot-review-footer">
+          <span>👍 324 helpful</span>
+          <span>💬 12 replies</span>
+        </div>
+      </div>
+      <div class="restural-lp-trustpilot-review">
+        <div class="restural-lp-trustpilot-review-header">
+          <div class="restural-lp-trustpilot-review-avatar">BK</div>
+          <div class="restural-lp-trustpilot-review-meta">
+            <p class="restural-lp-trustpilot-review-name">Bryce K.</p>
+            <p class="restural-lp-trustpilot-review-subline">🇨🇦 Canada · 1 week ago</p>
+          </div>
+          <span class="restural-lp-trustpilot-review-stars">★★★★★</span>
+        </div>
+        <p class="restural-lp-trustpilot-review-title">Real review — just over a month in</p>
+        <p class="restural-lp-trustpilot-review-body">Just over a month of taking NeuroFuel. Grip strength in my left hand is clearly better, and I'm sleeping more consistently. Would recommend for anyone post-stroke who's hit a plateau.</p>
+        <div class="restural-lp-trustpilot-review-footer">
+          <span>👍 187 helpful</span>
+          <span>💬 6 replies</span>
+        </div>
+      </div>
+      <div class="restural-lp-trustpilot-review">
+        <div class="restural-lp-trustpilot-review-header">
+          <div class="restural-lp-trustpilot-review-avatar">DM</div>
+          <div class="restural-lp-trustpilot-review-meta">
+            <p class="restural-lp-trustpilot-review-name">Deborah M.</p>
+            <p class="restural-lp-trustpilot-review-subline">🇬🇧 United Kingdom · 2 weeks ago</p>
+          </div>
+          <span class="restural-lp-trustpilot-review-stars">★★★★★</span>
+        </div>
+        <p class="restural-lp-trustpilot-review-title">My mother is 74 and it's working</p>
+        <p class="restural-lp-trustpilot-review-body">Bought this for my mum after her stroke last year. She loves the taste — says it's like real coffee — and after 6 weeks her speech is noticeably clearer. That's worth the price tag alone.</p>
+        <div class="restural-lp-trustpilot-review-footer">
+          <span>👍 241 helpful</span>
+          <span>💬 9 replies</span>
+        </div>
+      </div>
+      <div class="restural-lp-trustpilot-review">
+        <div class="restural-lp-trustpilot-review-header">
+          <div class="restural-lp-trustpilot-review-avatar">MS</div>
+          <div class="restural-lp-trustpilot-review-meta">
+            <p class="restural-lp-trustpilot-review-name">Mark S.</p>
+            <p class="restural-lp-trustpilot-review-subline">🇦🇺 Australia · 3 weeks ago</p>
+          </div>
+          <span class="restural-lp-trustpilot-review-stars">★★★★☆</span>
+        </div>
+        <p class="restural-lp-trustpilot-review-title">Slower for me — but real</p>
+        <p class="restural-lp-trustpilot-review-body">Took me closer to 6 weeks to feel anything vs the 2–3 weeks advertised. But the gains are real — mornings are sharper, brain fog is lifting. Docking a star for slow onset, not for the product.</p>
+        <div class="restural-lp-trustpilot-review-footer">
+          <span>👍 98 helpful</span>
+          <span>💬 4 replies</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="restural-lp-faq" id="restural-lp-faq-section">
+    <div class="restural-lp-container" style="text-align: center;">
+      <h2 class="restural-lp-section-heading">Frequently Asked <em>Questions</em></h2>
+      <div class="restural-lp-divider"></div>
+    </div>
+    <div class="restural-lp-faq-list">
+      <div class="restural-lp-faq-item"><button class="restural-lp-faq-question" aria-expanded="false">What does NeuroFuel actually do?<span class="restural-lp-faq-toggle">+</span></button><div class="restural-lp-faq-answer"><p>NeuroFuel stimulates Nerve Growth Factor (NGF) production via lion's mane bioactive compounds, signaling your brain to grow new neurons and forge new connections for stroke recovery.</p></div></div>
+      <div class="restural-lp-faq-item"><button class="restural-lp-faq-question" aria-expanded="false">Who is this for?<span class="restural-lp-faq-toggle">+</span></button><div class="restural-lp-faq-answer"><p>Stroke survivors at any stage—acute phase, active rehabilitation, or years post-stroke looking to break through a plateau. Also for caregivers supporting recovery.</p></div></div>
+      <div class="restural-lp-faq-item"><button class="restural-lp-faq-question" aria-expanded="false">Will I feel side effects?<span class="restural-lp-faq-toggle">+</span></button><div class="restural-lp-faq-answer"><p>100% natural ingredients. Zero significant side effects across 520 clinical participants. Lion's mane has centuries of safe consumption history.</p></div></div>
+      <div class="restural-lp-faq-item"><button class="restural-lp-faq-question" aria-expanded="false">Do I need a doctor?<span class="restural-lp-faq-toggle">+</span></button><div class="restural-lp-faq-answer"><p>No prescription needed. Simple as instant coffee. We recommend continuing your rehabilitation program—NeuroFuel amplifies therapy, doesn't replace it.</p></div></div>
+      <div class="restural-lp-faq-item"><button class="restural-lp-faq-question" aria-expanded="false">What does it taste like?<span class="restural-lp-faq-toggle">+</span></button><div class="restural-lp-faq-answer"><p>Regular coffee. Lion's mane extract is virtually tasteless in the blend. Add milk, cream, or sugar as normal.</p></div></div>
+      <div class="restural-lp-faq-item"><button class="restural-lp-faq-question" aria-expanded="false">How often should I drink it?<span class="restural-lp-faq-toggle">+</span></button><div class="restural-lp-faq-answer"><p>One cup daily, morning preferred. Results compound with consistency—initial improvements in 2-3 weeks, significant changes at 6 and 12 weeks.</p></div></div>
+      <div class="restural-lp-faq-item"><button class="restural-lp-faq-question" aria-expanded="false">Safe for seniors?<span class="restural-lp-faq-toggle">+</span></button><div class="restural-lp-faq-answer"><p>Yes. Most customers are 55+. Consult your doctor if on blood thinners, immunosuppressants, or with kidney disease.</p></div></div>
+      <div class="restural-lp-faq-item"><button class="restural-lp-faq-question" aria-expanded="false">Does this replace rehab?<span class="restural-lp-faq-toggle">+</span></button><div class="restural-lp-faq-answer"><p>No. PT provides repetitive stimulus; NeuroFuel provides neurological raw materials. Synergistic together.</p></div></div>
+      <div class="restural-lp-faq-item"><button class="restural-lp-faq-question" aria-expanded="false">Compatible with my medications?<span class="restural-lp-faq-toggle">+</span></button><div class="restural-lp-faq-answer"><p>No known drug interactions. Check with your physician if on blood thinners, anti-seizure, or immunosuppressant medication.</p></div></div>
+      <div class="restural-lp-faq-item"><button class="restural-lp-faq-question" aria-expanded="false">Different from other lion's mane?<span class="restural-lp-faq-toggle">+</span></button><div class="restural-lp-faq-answer"><p>Formulated for stroke recovery (not general wellness), coffee format for compliance, clinically evaluated with published outcome data.</p></div></div>
+      <div class="restural-lp-faq-item"><button class="restural-lp-faq-question" aria-expanded="false">What if it doesn't work?<span class="restural-lp-faq-toggle">+</span></button><div class="restural-lp-faq-answer"><p>Full 365-day money-back guarantee, no questions. Under 0.5% return rate.</p></div></div>
+      <div class="restural-lp-faq-item"><button class="restural-lp-faq-question" aria-expanded="false">Shipping time?<span class="restural-lp-faq-toggle">+</span></button><div class="restural-lp-faq-answer"><p>US: 3-5 business days. International: 7-14 days. Tracked and insured. Same-day ship before 2 PM ET.</p></div></div>
+      <div class="restural-lp-faq-item"><button class="restural-lp-faq-question" aria-expanded="false">Can I cancel?<span class="restural-lp-faq-toggle">+</span></button><div class="restural-lp-faq-answer"><p>Anytime. Online portal or email help@restural.com. No fees, no minimums.</p></div></div>
+    </div>
+  </section>
+
+  
+  <!-- MARQUEE #3 (guarantee strip, before final CTA) -->
+  <div class="restural-lp-marquee" aria-hidden="true">
+    <div class="restural-lp-marquee-track">
+      <span class="restural-lp-marquee-item">365-Day Money-Back Guarantee <span class="restural-lp-marquee-dot"></span></span>
+      <span class="restural-lp-marquee-item">Free Shipping on Every Order <span class="restural-lp-marquee-dot"></span></span>
+      <span class="restural-lp-marquee-item">Developed With Neurologists <span class="restural-lp-marquee-dot"></span></span>
+      <span class="restural-lp-marquee-item">365-Day Money-Back Guarantee <span class="restural-lp-marquee-dot"></span></span>
+      <span class="restural-lp-marquee-item">Free Shipping on Every Order <span class="restural-lp-marquee-dot"></span></span>
+      <span class="restural-lp-marquee-item">Developed With Neurologists <span class="restural-lp-marquee-dot"></span></span>
+      <span class="restural-lp-marquee-item">365-Day Money-Back Guarantee <span class="restural-lp-marquee-dot"></span></span>
+      <span class="restural-lp-marquee-item">Free Shipping on Every Order <span class="restural-lp-marquee-dot"></span></span>
+    </div>
+  </div>
+
+  <!-- FINAL CTA -->
+  <section class="restural-lp-final-cta">
+    <div class="restural-lp-final-cta-inner">
+      <div class="restural-lp-final-cta-image">
+        <div class="restural-lp-img-ph restural-lp-img-ph--loaded">
+          <img src="https://cdn.shopify.com/s/files/1/0741/8282/0057/files/nf_cuh.png?v=1774238143" alt="NeuroFuel product" />
+        </div>
+        <div class="restural-lp-final-cta-image-badge">365-Day<br>Guarantee</div>
+      </div>
+      <h2>Your Brain Can Rebuild. <span>Start Today.</span></h2>
+      <p>Join 12,000+ stroke survivors who stopped waiting. Risk-free 365-day guarantee.</p>
+      <a href="#" class="restural-lp-cta-primary">⚡ Start Your Recovery</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="restural-lp-footer">
+    <div class="restural-lp-footer-inner">
+      <p class="restural-lp-footer-logo">Restural</p>
+      <div class="restural-lp-footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Shipping Info</a>
+        <a href="#">Return Policy</a>
+        <a href="#">Track Order</a>
+        <a href="mailto:help@restural.com">Contact</a>
+      </div>
+      <div class="restural-lp-footer-contact">
+        <p>help@restural.com · +1 205-831-9712</p>
+        <p>3140 W. Main St., Riverton, Wyoming 82501</p>
+      </div>
+      <p class="restural-lp-footer-disclaimer">These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease. Results may vary. Consult your physician before beginning any new supplement. Testimonials reflect individual experiences.</p>
+      <p class="restural-lp-footer-disclaimer" style="margin-top: 8px;">© 2026 Restural. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <!-- STICKY BOTTOM BAR (desktop + mobile, appears after hero) -->
+  <div class="restural-lp-sticky-bar" id="restural-lp-sticky-bar" aria-hidden="true">
+    <div class="restural-lp-sticky-bar-inner">
+      <div class="restural-lp-sticky-bar-copy">
+        <div class="restural-lp-sticky-bar-line1">Sale Ends Tonight</div>
+        <div class="restural-lp-sticky-bar-line2">Free shipping + bonus guide included</div>
+      </div>
+      <a href="#" class="restural-lp-cta-primary">Claim Offer</a>
+    </div>
+  </div>
+
+  <script>
+    /* Hero burger menu */
+    (function(){
+      var btn = document.getElementById('restural-lp-burger-btn');
+      var menu = document.getElementById('restural-lp-hero-menu');
+      if(!btn || !menu) return;
+      btn.addEventListener('click', function(){
+        var open = menu.classList.toggle('restural-lp-hero-menu--open');
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      menu.querySelectorAll('a').forEach(function(a){
+        a.addEventListener('click', function(){
+          menu.classList.remove('restural-lp-hero-menu--open');
+          btn.setAttribute('aria-expanded', 'false');
+        });
+      });
+    })();
+
+    /* FAQ accordion */
+    (function(){
+      var items = document.querySelectorAll('.restural-lp-faq-item');
+      items.forEach(function(item){
+        var btn = item.querySelector('.restural-lp-faq-question');
+        btn.addEventListener('click', function(){
+          var open = item.classList.contains('restural-lp-faq-item--open');
+          items.forEach(function(o){
+            o.classList.remove('restural-lp-faq-item--open');
+            o.querySelector('.restural-lp-faq-question').setAttribute('aria-expanded','false');
+          });
+          if(!open){
+            item.classList.add('restural-lp-faq-item--open');
+            btn.setAttribute('aria-expanded','true');
+          }
+        });
+      });
+    })();
+
+    /* Countdown timers (topbar + pricing, synced) */
+    (function(){
+      var total = 86400;
+      var topH = document.getElementById('restural-lp-topbar-h');
+      var topM = document.getElementById('restural-lp-topbar-m');
+      var topS = document.getElementById('restural-lp-topbar-s');
+      var pH = document.getElementById('restural-lp-cd-hours');
+      var pM = document.getElementById('restural-lp-cd-minutes');
+      var pS = document.getElementById('restural-lp-cd-seconds');
+      function pad(n){ return n < 10 ? '0' + n : '' + n; }
+      function render(){
+        var h = Math.floor(total / 3600);
+        var m = Math.floor((total % 3600) / 60);
+        var s = total % 60;
+        if (topH) topH.textContent = pad(h);
+        if (topM) topM.textContent = pad(m);
+        if (topS) topS.textContent = pad(s);
+        if (pH) pH.textContent = pad(h);
+        if (pM) pM.textContent = pad(m);
+        if (pS) pS.textContent = pad(s);
+      }
+      render();
+      setInterval(function(){
+        if (total <= 0) return;
+        total--;
+        render();
+      }, 1000);
+    })();
+
+    /* Hero testimonial carousel — auto-rotate + click */
+    (function(){
+      var track = document.getElementById('restural-lp-hero-carousel-track');
+      var dots = document.querySelectorAll('#restural-lp-hero-carousel-dots .restural-lp-hero-carousel-dot');
+      if (!track || dots.length === 0) return;
+      var current = 0;
+      var total = dots.length;
+      function go(i){
+        current = ((i % total) + total) % total;
+        track.style.transform = 'translateX(-' + (current * 100) + '%)';
+        dots.forEach(function(d, idx){
+          d.classList.toggle('restural-lp-hero-carousel-dot--active', idx === current);
+        });
+      }
+      dots.forEach(function(d, idx){
+        d.addEventListener('click', function(){ go(idx); restart(); });
+      });
+      var interval = setInterval(function(){ go(current + 1); }, 4500);
+      function restart(){
+        clearInterval(interval);
+        interval = setInterval(function(){ go(current + 1); }, 4500);
+      }
+    })();
+
+    /* Mobile sticky bar — show only on mobile after scrolling past hero */
+    (function(){
+      var bar = document.getElementById('restural-lp-sticky-bar');
+      var hero = document.querySelector('.restural-lp-hero');
+      if (!bar || !hero) return;
+      var heroBottom = 0;
+      function measure(){ heroBottom = hero.offsetTop + hero.offsetHeight; }
+      function isMobile(){ return window.matchMedia('(max-width: 768px)').matches; }
+      function onScroll(){
+        if (!isMobile()) {
+          bar.classList.remove('restural-lp-sticky-bar--visible');
+          document.body.classList.remove('restural-lp-sticky-active');
+          return;
+        }
+        var scrolled = window.scrollY || window.pageYOffset;
+        var footer = document.querySelector('.restural-lp-footer');
+        var nearFooter = footer && (scrolled + window.innerHeight > footer.offsetTop + 60);
+        if (scrolled > heroBottom && !nearFooter) {
+          bar.classList.add('restural-lp-sticky-bar--visible');
+          document.body.classList.add('restural-lp-sticky-active');
+        } else {
+          bar.classList.remove('restural-lp-sticky-bar--visible');
+          document.body.classList.remove('restural-lp-sticky-active');
+        }
+      }
+      measure();
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', function(){ measure(); onScroll(); });
+      onScroll();
+    })();
+
+    /* Timeline scroll-in reveal */
+    (function(){
+      var items = document.querySelectorAll('.restural-lp-timeline-item');
+      if (!items.length) return;
+      if (!('IntersectionObserver' in window)) {
+        items.forEach(function(el){ el.classList.add('is-visible'); });
+        return;
+      }
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.18, rootMargin: '0px 0px -40px 0px' });
+      items.forEach(function(el){ io.observe(el); });
+    })();
+  
+    /* Pricing card thumbnail gallery */
+    (function(){
+      document.querySelectorAll('.restural-lp-pricing-card').forEach(function(card){
+        var mainImg = card.querySelector('.restural-lp-pricing-card-main-img');
+        var thumbs = card.querySelectorAll('.restural-lp-pricing-card-thumb');
+        if(!mainImg || !thumbs.length) return;
+        thumbs.forEach(function(t){
+          t.addEventListener('click', function(){
+            thumbs.forEach(function(o){ o.classList.remove('restural-lp-pricing-card-thumb--active'); });
+            t.classList.add('restural-lp-pricing-card-thumb--active');
+            var src = t.getAttribute('data-src');
+            if(src) mainImg.src = src;
+          });
+        });
+      });
+    })();
+
+  </script>
