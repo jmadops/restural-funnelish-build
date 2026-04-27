@@ -15,7 +15,7 @@ OUT_SRC = ROOT / "v2-images" / "product"
 OUT_REPO = ROOT / "Restural Pages" / "v2-images" / "product"
 REF_IMAGE = ROOT / "v2-images" / "product" / "nf_product_3pack.png"
 
-for env_path in [Path("/Users/jaymilne/A/outreach-agent/.env"), Path("/Users/jaymilne/A/.env")]:
+for env_path in [Path("/Users/jaymilne/A/Adgentiks/outreach-agent/.env"), Path("/Users/jaymilne/A/.env")]:
     if env_path.exists():
         load_dotenv(env_path)
         break

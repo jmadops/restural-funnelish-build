@@ -15,7 +15,7 @@ OUT_SRC = ROOT / "v2-images" / "social"
 OUT_REPO = ROOT / "Restural Pages" / "v2-images" / "social"
 REF_IMAGE = Path("/Users/jaymilne/A/Workspace/Client Work/Restural/R Email Agent/brand_kit/generated_images/plain_text_header/dr_jones_email_header.png")
 
-for env_path in [Path("/Users/jaymilne/A/outreach-agent/.output"), Path("/Users/jaymilne/A/outreach-agent/.env"), Path("/Users/jaymilne/A/.env")]:
+for env_path in [Path("/Users/jaymilne/A/Adgentiks/outreach-agent/.output"), Path("/Users/jaymilne/A/Adgentiks/outreach-agent/.env"), Path("/Users/jaymilne/A/.env")]:
     if env_path.exists():
         load_dotenv(env_path)
         break

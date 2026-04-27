@@ -24,8 +24,8 @@ OUT_REPO = ROOT / "Restural Pages" / "v2-images" / "social"
 REF_BOX = ROOT / "v2-images" / "product" / "nf_product_1box_cream.png"
 
 for env_path in [
-    Path("/Users/jaymilne/A/outreach-agent/.output"),
-    Path("/Users/jaymilne/A/outreach-agent/.env"),
+    Path("/Users/jaymilne/A/Adgentiks/outreach-agent/.output"),
+    Path("/Users/jaymilne/A/Adgentiks/outreach-agent/.env"),
     Path("/Users/jaymilne/A/.env"),
 ]:
     if env_path.exists():

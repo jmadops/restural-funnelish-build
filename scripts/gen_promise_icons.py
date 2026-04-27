@@ -14,7 +14,7 @@ ROOT = Path("/Users/jaymilne/A/Workspace/Client Work/Restural/Funnelish Build")
 OUT_SRC = ROOT / "v2-images" / "decor"
 OUT_REPO = ROOT / "Restural Pages" / "v2-images" / "decor"
 
-for env_path in [Path("/Users/jaymilne/A/outreach-agent/.env"), Path("/Users/jaymilne/A/.env")]:
+for env_path in [Path("/Users/jaymilne/A/Adgentiks/outreach-agent/.env"), Path("/Users/jaymilne/A/.env")]:
     if env_path.exists():
         load_dotenv(env_path)
         break
