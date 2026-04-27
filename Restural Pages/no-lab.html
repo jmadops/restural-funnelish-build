@@ -116,7 +116,7 @@
       flex-wrap: wrap;
     }
     .restural-lp-topbar-offer {
-      color: var(--rlp-gold); font-weight: 800;
+      color: var(--rlp-coral); font-weight: 800;
       letter-spacing: 0.04em; text-transform: uppercase;
       font-size: 0.78rem;
     }
@@ -212,7 +212,7 @@
         "menu menu"
         "top image"
         "bottom image";
-      column-gap: 48px; row-gap: 20px;
+      column-gap: 48px; row-gap: 10px;
       align-items: center; position: relative; z-index: 1;
     }
     .restural-lp-hero-eyebrow {
@@ -231,13 +231,13 @@
     }
     .restural-lp-hero h1 em { font-style: normal; color: var(--rlp-coral); font-weight: 800; }
     .restural-lp-hero-sub {
-      font-size: 1.05rem; line-height: 1.65;
-      opacity: 0.82; margin-bottom: 26px; max-width: 460px;
+      font-size: 1.05rem; line-height: 1.6;
+      opacity: 0.82; margin-bottom: 14px; max-width: 460px;
       font-weight: 400;
     }
     .restural-lp-hero-proof {
       display: flex; align-items: center; gap: 10px;
-      margin-bottom: 22px; flex-wrap: wrap;
+      margin-bottom: 12px; flex-wrap: wrap;
     }
     .restural-lp-hero-avatars { display: flex; }
     .restural-lp-hero-stars { color: var(--rlp-green); font-size: 1rem; letter-spacing: 1px; margin-left: 6px; }
@@ -261,7 +261,7 @@
     }
 
     .restural-lp-hero-badges {
-      display: flex; gap: 20px; flex-wrap: wrap; margin-top: 22px;
+      display: flex; gap: 20px; flex-wrap: wrap; margin-top: 14px;
     }
     .restural-lp-hero-badge {
       display: flex; align-items: center; gap: 8px;
@@ -279,7 +279,7 @@
 
     .restural-lp-hero-image-col {
       position: relative; display: flex; justify-content: center; align-items: center;
-      align-self: center; padding-top: 60px;
+      align-self: center; padding-top: 0;
     }
     .restural-lp-hero-badge-float {
       position: absolute; top: 24px; right: -14px;
@@ -348,7 +348,7 @@
 
     /* Hero testimonial carousel */
     .restural-lp-hero-carousel {
-      margin-top: 24px; max-width: 480px;
+      margin-top: 16px; max-width: 480px;
       background: rgba(255,255,255,0.08);
       border: 1px solid rgba(255,255,255,0.12);
       border-radius: var(--rlp-radius);
@@ -386,8 +386,8 @@
 
     /* ===== MARQUEE ===== */
     .restural-lp-marquee {
-      background: var(--rlp-gold);
-      color: var(--rlp-navy-deep);
+      background: #232324;
+      color: var(--rlp-white);
       padding: 11px 0; overflow: hidden; white-space: nowrap;
       border-top: 2px solid var(--rlp-navy-deep);
       border-bottom: 2px solid var(--rlp-navy-deep);
@@ -399,7 +399,7 @@
       text-transform: uppercase; letter-spacing: 0.08em;
     }
     .restural-lp-marquee-dot {
-      width: 6px; height: 6px; background: var(--rlp-navy-deep);
+      width: 6px; height: 6px; background: var(--rlp-white);
       border-radius: 50%;
     }
     @keyframes rlp-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
@@ -1823,12 +1823,13 @@
           "navbar"
           "menu"
           "top"
-          "image"
-          "bottom";
-        text-align: center; gap: 22px;
+          "bottom"
+          "image";
+        text-align: center; gap: 14px;
         width: 100%;
         justify-items: center;
       }
+      .restural-lp-hero-navbar { flex-direction: row-reverse; }
       .restural-lp-hero-inner > * { min-width: 0; max-width: 100%; }
       .restural-lp-hero-content-top,
       .restural-lp-hero-content-bottom {
@@ -1845,7 +1846,7 @@
         text-align: center;
       }
       .restural-lp-hero-eyebrow { font-size: 0.62rem; }
-      .restural-lp-hero-sub { margin: 0 auto 20px; font-size: 0.94rem; overflow-wrap: break-word; text-align: center; max-width: 420px; }
+      .restural-lp-hero-sub { margin: 0 auto 12px; font-size: 0.94rem; overflow-wrap: break-word; text-align: center; max-width: 420px; }
       .restural-lp-hero-proof { justify-content: center; width: 100%; }
       .restural-lp-hero-badges { justify-content: center; gap: 14px; width: 100%; }
       .restural-lp-hero-badge { font-size: 0.66rem; }
@@ -2087,7 +2088,7 @@
           <span class="restural-lp-hero-stars">★★★★★</span>
           <span class="restural-lp-hero-rating-text">Rated 4.7/5 by 12,000+ Customers</span>
         </div>
-        <div style="margin-bottom: 18px;">
+        <div style="margin-bottom: 10px;">
           <a href="{{SHOPIFY_CART_PERMALINK}}" class="restural-lp-cta-primary">GET MY NEUROFUEL →</a>
         </div>
         <div class="restural-lp-hero-badges">
@@ -2410,7 +2411,7 @@
   <section class="restural-lp-comparison">
     <div class="restural-lp-comparison-inner">
       <div style="text-align: center;">
-        <h2 class="restural-lp-section-heading restural-lp-section-heading--light">The Most <em style="color: #8AD494;">Neurologically Active</em> Recovery Formula on the Market</h2>
+        <h2 class="restural-lp-section-heading restural-lp-section-heading--light">The Most <em style="color: var(--rlp-coral);">Neurologically Active</em> Recovery Formula on the Market</h2>
         <p class="restural-lp-section-heading-sub restural-lp-section-heading-sub--light">Here's why NeuroFuel outperforms pills, powders, and over-the-counter alternatives.</p>
       </div>
       <div class="restural-lp-comparison-grid">
