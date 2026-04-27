@@ -1774,15 +1774,23 @@
       .restural-lp-hero-inner {
         grid-template-columns: minmax(0, 1fr);
         grid-template-areas:
-          "navbar"
           "menu"
           "top"
-          "bottom"
-          "image";
+          "image"
+          "bottom";
         text-align: center; gap: 14px;
         width: 100%;
         justify-items: center;
       }
+      .restural-lp-hero-navbar { display: none; }
+      .restural-lp-topbar { padding-left: 56px; padding-right: 16px; }
+      .restural-lp-topbar-burger {
+        display: inline-flex !important;
+        position: absolute;
+        left: 10px; top: 50%; transform: translateY(-50%);
+        width: 30px; height: 30px;
+      }
+      .restural-lp-topbar-burger span { width: 16px; }
       .restural-lp-hero-navbar { flex-direction: row-reverse; }
       .restural-lp-hero-inner > * { min-width: 0; max-width: 100%; }
       .restural-lp-hero-content-top,
@@ -1969,6 +1977,7 @@
     .restural-lp-hero-burger[aria-expanded="true"] span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
     .restural-lp-hero-burger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
     .restural-lp-hero-burger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+    .restural-lp-topbar-burger { display: none; }
     .restural-lp-hero-menu {
       grid-area: menu;
       max-height: 0; overflow: hidden;
@@ -1978,13 +1987,13 @@
     .restural-lp-hero-menu ul {
       list-style: none; margin: 0; padding: 12px 0 6px;
       display: flex; flex-wrap: wrap; gap: 8px 18px; justify-content: center;
-      border-bottom: 1px solid rgba(255,255,255,0.12);
+      border-bottom: 1px solid var(--rlp-grey-border);
     }
     .restural-lp-hero-menu a {
-      font-size: 0.88rem; font-weight: 600; color: rgba(255,255,255,0.88);
+      font-size: 0.88rem; font-weight: 600; color: var(--rlp-text);
       padding: 6px 4px; transition: color 0.2s;
     }
-    .restural-lp-hero-menu a:hover { color: var(--rlp-white); text-decoration: underline; }
+    .restural-lp-hero-menu a:hover { color: var(--rlp-green); text-decoration: underline; }
 
     /* Hero content split rows */
     .restural-lp-hero-content-top { grid-area: top; }
@@ -1995,6 +2004,7 @@
 
   <!-- TOP BAR (merged: offer + countdown) -->
   <div class="restural-lp-topbar">
+    <button class="restural-lp-hero-burger restural-lp-topbar-burger" aria-label="Open menu" aria-expanded="false" aria-controls="restural-lp-hero-menu"><span></span><span></span><span></span></button>
     <span class="restural-lp-topbar-offer">🎁 Free Shipping + Bonus Recovery Guide</span>
     <span class="restural-lp-topbar-divider" aria-hidden="true"></span>
     <span class="restural-lp-topbar-label">⚡ Sale Ends In:</span>
@@ -2940,19 +2950,24 @@
   </div>
 
   <script>
-    /* Hero burger menu */
+    /* Hero burger menu (binds all burgers — hero + topbar) */
     (function(){
-      var btn = document.getElementById('restural-lp-burger-btn');
+      var btns = document.querySelectorAll('.restural-lp-hero-burger');
       var menu = document.getElementById('restural-lp-hero-menu');
-      if(!btn || !menu) return;
-      btn.addEventListener('click', function(){
-        var open = menu.classList.toggle('restural-lp-hero-menu--open');
-        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if(!btns.length || !menu) return;
+      function setExpanded(open){
+        btns.forEach(function(b){ b.setAttribute('aria-expanded', open ? 'true' : 'false'); });
+      }
+      btns.forEach(function(btn){
+        btn.addEventListener('click', function(){
+          var open = menu.classList.toggle('restural-lp-hero-menu--open');
+          setExpanded(open);
+        });
       });
       menu.querySelectorAll('a').forEach(function(a){
         a.addEventListener('click', function(){
           menu.classList.remove('restural-lp-hero-menu--open');
-          btn.setAttribute('aria-expanded', 'false');
+          setExpanded(false);
         });
       });
     })();
