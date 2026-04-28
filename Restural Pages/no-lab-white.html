@@ -281,9 +281,12 @@
     }
 
     .restural-lp-hero-image-col {
+      grid-area: image;
       position: relative; display: flex; justify-content: center; align-items: center;
       align-self: center; padding-top: 0;
     }
+    .restural-lp-hero-content-top { grid-area: top; }
+    .restural-lp-hero-content-bottom { grid-area: bottom; }
     .restural-lp-hero-badge-float {
       position: absolute; top: 24px; right: -14px;
       background: var(--rlp-coral); color: var(--rlp-white);
@@ -1772,16 +1775,17 @@
       .restural-lp-hero { padding: 32px 16px 28px; }
       .restural-lp-hero::before, .restural-lp-hero::after { display: none; }
       .restural-lp-hero-inner {
-        grid-template-columns: minmax(0, 1fr);
-        grid-template-areas:
-          "menu"
-          "top"
-          "image"
-          "bottom";
-        text-align: center; gap: 14px;
-        width: 100%;
-        justify-items: center;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 14px;
+        text-align: center;
+        width: 100%; max-width: 100%;
       }
+      .restural-lp-hero-menu { order: 1; }
+      .restural-lp-hero-content-top { order: 2; }
+      .restural-lp-hero-image-col { order: 3; }
+      .restural-lp-hero-content-bottom { order: 4; }
       .restural-lp-hero-navbar { display: none; }
       .restural-lp-topbar { padding-left: 56px; padding-right: 16px; }
       .restural-lp-topbar-burger {
@@ -1795,10 +1799,12 @@
       .restural-lp-hero-inner > * { min-width: 0; max-width: 100%; }
       .restural-lp-hero-content-top,
       .restural-lp-hero-content-bottom {
-        justify-self: center; width: 100%;
+        justify-self: stretch; width: 100%;
         text-align: center;
-        display: flex; flex-direction: column; align-items: center;
+        display: flex; flex-direction: column; align-items: stretch;
       }
+      .restural-lp-hero-content-top > *,
+      .restural-lp-hero-content-bottom > * { width: 100%; max-width: 100%; }
       .restural-lp-hero-carousel-track { max-width: 100%; }
       .restural-lp-hero h1 {
         font-size: 1.7rem;
